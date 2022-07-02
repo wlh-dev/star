@@ -1,2 +1,14 @@
 server:
   port: 8080
+
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      host: 10.1.60.127
+      port: 27017
+      username: mongo
+      password: MongoDB_863*^#
+      database: pacific
+  main:
+    allow-bean-definition-overriding: true
