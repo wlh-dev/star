@@ -3,7 +3,10 @@ package com.star.web.mongo;
 import com.star.web.entity.DictTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -23,8 +26,16 @@ public class MongoMain {
 
 
 		@RequestMapping("/test")
-		public void mongoTest(){
-				DictTest dictTest = new DictTest();
+		public void mongoTest(@RequestParam(name = "test") String test ,boolean isActive){
+			System.out.println(test);
+			System.out.println(isActive);
+			Criteria criteria = new Criteria();
+			Query query = new Query(criteria);
+			query.limit(10);
+			long resObject = mongoTemplate.count(query, "resObject");
+
+			System.out.println(resObject);
+			DictTest dictTest = new DictTest();
 				Map<String, String> map = new HashMap<>();
 				map.put("aaa","aaaa");
 				map.put("bbb","bbbb");
