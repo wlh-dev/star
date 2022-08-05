@@ -1,10 +1,8 @@
-package com.star.common.redis;
+package com.star.common.entity.redis;
 
-import com.star.common.config.ConfigService;
 import com.star.common.config.ConfigValue;
 import com.star.web.WebApplication;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;

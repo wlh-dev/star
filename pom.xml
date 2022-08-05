@@ -14,8 +14,26 @@
         <module>star-mongo</module>
         <module>star-redis</module>
         <module>star-elasticsearch</module>
+        <module>star-mysql</module>
     </modules>
-
+    <organization>
+        <name>wlh</name>
+        <url>https://github.com/wlh-dev/star.git</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>daniel</id>
+            <name>luhua</name>
+            <email>825828826@qq.com</email>
+            <url>https://github.com/wlh-dev/star.git</url>
+            <organization>${organization.name}</organization>
+            <organizationUrl>${organization.url}</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>UTC/GMT+08:00</timezone>
+        </developer>
+    </developers>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
