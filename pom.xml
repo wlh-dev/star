@@ -11,6 +11,9 @@
     <modules>
         <module>star-common</module>
         <module>star-web</module>
+        <module>star-mongo</module>
+        <module>star-redis</module>
+        <module>star-elasticsearch</module>
     </modules>
 
     <properties>
