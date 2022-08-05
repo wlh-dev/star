@@ -40,6 +40,8 @@
         <org.springframework.boot.version>2.3.4.RELEASE</org.springframework.boot.version>
         <jedis.version>4.2.0</jedis.version>
         <esotericsoftware.version>5.3.0</esotericsoftware.version>
+        <apollo.version>2.0.1</apollo.version>
+        <druid.version>1.2.11</druid.version>
     </properties>
 
     <dependencyManagement>
@@ -68,7 +70,18 @@
                 <artifactId>kryo</artifactId>
                 <version>${esotericsoftware.version}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/com.ctrip.framework.apollo/apollo-client -->
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId>
+                <version>${apollo.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -1,3 +1,4 @@
+/*
 package com.star.common.entity.redis;
 
 import com.star.common.config.ConfigValue;
@@ -7,11 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
+*/
 /**
  * @author : wlh
  * @date Date : 2022年06月20日 01:03
  * @desc 需要在测试类中指定启动类
- */
+ *//*
+
 
 @SpringBootTest(classes = WebApplication.class) public class RedisTest {
 
@@ -21,3 +24,4 @@ import javax.annotation.Resource;
 				System.out.println(calcTopTenValueAttrCodes);
 		}
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.star.web.mongo;
 
 import com.star.web.entity.DictTest;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+*/
 /**
  * @author : wlh
  * @date Date : 2022年07月01日 15:50
- */
+ *//*
+
 
 @RestController
 @RequestMapping("mongo")
@@ -57,3 +60,4 @@ public class MongoMain {
 
 
 }
+*/
