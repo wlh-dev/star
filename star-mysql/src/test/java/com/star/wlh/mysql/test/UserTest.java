@@ -28,7 +28,7 @@ public class UserTest {
 	@Test
 	public void queryTest(){
 		List<UserEntity> query = userDao.query();
-		Assert.assertNull(query);
+		Assert.assertNotEquals(query.size(), 1);
 	}
 	@Test
 	public void insertTest(){
