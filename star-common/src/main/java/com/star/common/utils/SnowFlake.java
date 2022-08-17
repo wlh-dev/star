@@ -1,6 +1,8 @@
 package com.star.common.utils;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @ClassName: SnowFlakeUtil
@@ -104,7 +106,6 @@ public class SnowFlake {
 	 */
 	public synchronized long nextId() {
 		long currentTimeMillis = System.currentTimeMillis();
-		System.out.println(currentTimeMillis);
 		// 当前时间小于上一次生成id使用的时间，可能出现服务器时钟回拨问题
 		if (currentTimeMillis < lastTimeMillis) {
 			throw new RuntimeException(
@@ -170,14 +171,22 @@ public class SnowFlake {
 	}
 
 	public static void main(String[] args) {
-		SnowFlake snowFlakeUtil = new SnowFlake();
-		long id = snowFlakeUtil.nextId();
-		System.out.println(id);
-		Date date = SnowFlake.getTimeBySnowFlakeId(id);
-		System.out.println(date);
-		long time = date.getTime();
-		System.out.println(time);
-		System.out.println(getRandomStr());
+		SnowFlake snowflakeIdGenerator = new SnowFlake();
+
+		// 生成50个id
+		Set<Long> set = new TreeSet<>();
+		for (int i = 0; i < 50; i++) {
+			set.add(snowflakeIdGenerator.nextId());
+		}
+		System.out.println(set.size());
+		System.out.println(set);
+
+		// 验证生成100万个id需要多久
+		long startTime = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			snowflakeIdGenerator.nextId();
+		}
+		System.out.println(System.currentTimeMillis() - startTime);
 
 	}
 
