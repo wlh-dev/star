@@ -1,8 +1,9 @@
 package com.star.wlh.mong;
 
+import com.star.wlh.mongo.MongoApplication;
 import com.star.wlh.mongo.entity.ResObject;
 import com.star.wlh.mongo.repository.ResObjectRepository;
-import com.star.wlh.mongo.repository.impl.ResObjectRepositoryImpl;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import java.util.List;
  * @date Date : 2022年08月17日 16:44
  */
 
-@SpringBootTest(classes = ResObjectRepositoryImpl.class)
+@SpringBootTest(classes = MongoApplication.class)
 @RunWith(SpringRunner.class)
 public class ResObjectRepositoryTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
@@ -36,6 +37,7 @@ public class ResObjectRepositoryTest {
 
 		List<ResObject> resObject = resObjectRepository.find(query);
 		LOGGER.info("resObject:{}",resObject);
+		Assert.assertNotNull(resObject);
 
 	}
 
