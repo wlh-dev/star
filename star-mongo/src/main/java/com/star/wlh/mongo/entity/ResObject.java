@@ -1,57 +1,74 @@
 package com.star.wlh.mongo.entity;
 
-import cn.hutool.json.JSONUtil;
-import com.esotericsoftware.kryo.DefaultSerializer;
-import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
+import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.Objects;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
- * @author : wlh
- * @date Date : 2022年08月17日 16:55
+ * @Author fengh
+ * @Date 2021/4/12 19:08
+ * @Description
  */
-
-@DefaultSerializer(CompatibleFieldSerializer.class)
+@Data
 @Document(collection = "resObject")
 public class ResObject {
+
 	@Id
-	private String id;
+	private ObjectId id;
+	private String tenantId;
 	private String classCode;
+	private boolean deleted;
+	private String keyIdentifiersText;
+	private List<String> keyIdentifiers;
+	private List<Source> sources;
+	private AttrValues attrValues;
+	private List<Tag> tags;
+	private Date createTime;
+	private String createSource;
+	private Date updateTime;
 
-	public String getId() {
-		return id;
+	@Data
+	public static class Change {
+		private String state;
+		private boolean conflict;
+		private Date time;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	@Data
+	public static class ResState {
+		private int state;
 	}
 
-	public String getClassCode() {
-		return classCode;
+	@Data
+	public static class Source {
+		private String code;
+		private Date time;
 	}
 
-	public void setClassCode(String classCode) {
-		this.classCode = classCode;
+	@Data
+	public static class ValueStatstc {
+		private int auto;
+		private int total;
+		private int filled;
 	}
 
-	@Override public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		ResObject resObject = (ResObject) o;
-		return Objects.equals(id, resObject.id) && Objects.equals(classCode, resObject.classCode);
+	public static class AttrValues extends HashMap<String, AttrValue> {
+
 	}
 
-	@Override public int hashCode() {
-		return Objects.hash(id, classCode);
-	}
-
-	@Override public String toString() {
-		return JSONUtil.toJsonStr(this);
+	@Data
+	public static class AttrValue {
+		@Field("T")
+		private Object t;
+		@Field("V")
+		private Object v;
+		@Field("S")
+		private String s;
 	}
 }
