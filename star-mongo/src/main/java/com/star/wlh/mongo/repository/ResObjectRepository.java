@@ -1,6 +1,9 @@
 package com.star.wlh.mongo.repository;
 
 import com.star.wlh.mongo.entity.ResObject;
+import com.star.wlh.mongo.entity.SourceType;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
@@ -17,4 +20,6 @@ public interface ResObjectRepository {
 	 * @return
 	 */
 	List<ResObject> find(Query query);
+
+	AggregationResults<SourceType> aggregate(Aggregation aggregate);
 }

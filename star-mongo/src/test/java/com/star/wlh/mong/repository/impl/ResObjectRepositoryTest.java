@@ -6,6 +6,7 @@ import cn.hutool.json.JSONObject;
 import com.star.common.utils.ConstantsFields;
 import com.star.wlh.mongo.MongoApplication;
 import com.star.wlh.mongo.entity.ResObject;
+import com.star.wlh.mongo.entity.SourceType;
 import com.star.wlh.mongo.repository.ResObjectRepository;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -15,12 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author : wlh
@@ -29,8 +31,33 @@ import java.util.List;
 
 @SpringBootTest(classes = MongoApplication.class) @RunWith(SpringRunner.class) public class ResObjectRepositoryTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
+	private static final Map<String, String> classCodeMap = new HashMap<>();
+
+	static {
+		classCodeMap.put("VpnGateway", "VpnGateway");
+		classCodeMap.put("VideoConferenceControlUnit", "VideoConferenceControlUnit");
+		classCodeMap.put("ContactCenterAccessGateway", "ContactCenterAccessGateway");
+		classCodeMap.put("InternetBehaviorGateway", "InternetBehaviorGateway");
+		classCodeMap.put("VideoConferenceTerminal", "VideoConferenceTerminal");
+		classCodeMap.put("NetworkController", "NetworkController");
+		classCodeMap.put("MediaGateway", "MediaGateway");
+		classCodeMap.put("ProxyServer", "ProxyServer");
+		classCodeMap.put("NetworkTrafficCollectionAndDiversionTool", "NetworkTrafficCollectionAndDiversionTool");
+		classCodeMap.put("WirelessAccessController", "WirelessAccessController");
+		classCodeMap.put("LoadBalancer", "LB");
+		classCodeMap.put("IpsecVpnGateway", "IpsecVpnGateway");
+		classCodeMap.put("NetworkPerformanceTestAndDiagnosticTool", "NetworkPerformanceTestAndDiagnosticTool");
+		classCodeMap.put("WirelessAccessPoint", "WirelessAccessPoint");
+		classCodeMap.put("IpPhone", "IpPhone");
+		classCodeMap.put("Router", "10202");
+		classCodeMap.put("SwitchAndRouter", "SwitchAndRouter");
+		classCodeMap.put("DWDM", "DWDM");
+		classCodeMap.put("Switch", "10201");
+		classCodeMap.put("Firewall", "10203");
+	}
 
 	@Autowired private ResObjectRepository resObjectRepository;
+
 
 	@Test public void queryTest() {
 		String source = "SDAN";
@@ -44,7 +71,32 @@ import java.util.List;
 		List<ResObject> resObjects = resObjectRepository.find(queryBySource);
 		LOGGER.info("resObjects:{}",resObjects.size());
 	}
-
+	private static final Map<String,List<String>> SOURCE_MAP = new HashMap<>();
+	@Test
+	public  void  ListTest(){
+		Aggregation aggregation = Aggregation.newAggregation(
+						Aggregation.group("createSource").first("createSource").as("createSource").first("classCode").as("classCode")
+		);
+		AggregationResults<SourceType> aggregate = resObjectRepository.aggregate(aggregation);
+		LOGGER.info("aggregate:{}",aggregate);
+		List<SourceType> mappedResults = aggregate.getMappedResults();
+		for (SourceType mappedResult : mappedResults) {
+			String classCode = mappedResult.getClassCode();
+			String createSource = mappedResult.getCreateSource();
+			SOURCE_MAP.putIfAbsent(classCode, new ArrayList<>());
+			List<String> list = SOURCE_MAP.get(classCode);
+			list.add(createSource);
+		}
+		LOGGER.info("SOURCE_LIST:{}",SOURCE_MAP);
+	}
+	@Test
+	public void sdnClassCodeTest(){
+		StringJoiner joiner = new StringJoiner(",");
+		for (String key : classCodeMap.keySet()) {
+			joiner.add(key);
+		}
+		LOGGER.info("keys:{}",joiner);
+	}
 	private static void initSwitchResObject(String source) {
 		String url = "http://10.1.60.114/store/openapi/v2/resources/batch_save?apikey=5f18514fe82f11ea90dc005056981a0d&source="+source;
 		JSONArray resObjectList = new JSONArray();

@@ -1,10 +1,13 @@
 package com.star.wlh.mongo.repository.impl;
 
 import com.star.wlh.mongo.entity.ResObject;
+import com.star.wlh.mongo.entity.SourceType;
 import com.star.wlh.mongo.repository.ResObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -28,5 +31,9 @@ public class ResObjectRepositoryImpl implements ResObjectRepository {
 	@Override
 	public List<ResObject> find(Query query) {
 		return mongoTemplate.find(query,ResObject.class);
+	}
+	@Override
+	public AggregationResults<SourceType> aggregate(Aggregation aggregate) {
+		return  mongoTemplate.aggregate(aggregate, "resObject", SourceType.class);
 	}
 }
