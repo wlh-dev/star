@@ -5,6 +5,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.star.common.utils.ConstantsFields;
 import com.star.wlh.mongo.MongoApplication;
+import com.star.wlh.mongo.entity.ModelDescEntity;
 import com.star.wlh.mongo.entity.ResObject;
 import com.star.wlh.mongo.entity.SourceType;
 import com.star.wlh.mongo.repository.ResObjectRepository;
@@ -23,6 +24,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author : wlh
@@ -115,6 +117,31 @@ import java.util.*;
 		LOGGER.info("resObjectList:{}", resObjectList);
 		String body = HttpRequest.post(url).body(resObjectList.toJSONString(0)).execute().body();
 		LOGGER.info("body:{}", body);
+	}
+	@Test
+	public  void  modelDescEntityTest(){
+		Map<String, String> stringStringMap = queryModelDescByType();
+		LOGGER.info("stringStringMap:{}",stringStringMap);
+	}
+
+	private static Map<String, String> queryModelDescByType() {
+		Map<String, String> map;
+		List<ModelDescEntity> entitys = getModelDescEntityList();
+		map = entitys.stream().collect(Collectors.toMap(ModelDescEntity::getCode, ModelDescEntity::getDesc));
+		return map;
+	}
+
+	private static List<ModelDescEntity> getModelDescEntityList() {
+		List<ModelDescEntity> modelDescEntities = new ArrayList<>();
+		ModelDescEntity modelDescEntity = new ModelDescEntity();
+		modelDescEntity.setCode("code");
+		modelDescEntity.setType("types");
+		modelDescEntity.setId("ddss");
+		modelDescEntity.setTenantId("tenantId");
+		modelDescEntity.setModelId("modelId");
+		modelDescEntities.add(modelDescEntity);
+		return modelDescEntities;
+
 	}
 
 	private static Query initMongoQuery(String classCode, List<String> sources, int pageSize, String minId) {
