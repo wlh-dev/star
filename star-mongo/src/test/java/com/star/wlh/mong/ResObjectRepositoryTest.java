@@ -24,7 +24,7 @@ import java.util.List;
 @SpringBootTest(classes = MongoApplication.class)
 @RunWith(SpringRunner.class)
 public class ResObjectRepositoryTest {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
 
 	@Autowired
 	private ResObjectRepository resObjectRepository;
@@ -36,7 +36,7 @@ public class ResObjectRepositoryTest {
 		Query query = new Query(criteria);
 
 		List<ResObject> resObject = resObjectRepository.find(query);
-		LOGGER.info("resObject:{}",resObject);
+		logger.info("resObject:{}",resObject);
 		Assert.assertNotNull(resObject);
 
 	}

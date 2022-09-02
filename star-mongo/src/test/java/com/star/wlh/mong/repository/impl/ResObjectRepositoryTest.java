@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 
 @SpringBootTest(classes = MongoApplication.class) @RunWith(SpringRunner.class) public class ResObjectRepositoryTest {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
 	private static final Map<String, String> classCodeMap = new HashMap<>();
 
 	static {
@@ -67,11 +67,11 @@ import java.util.stream.Collectors;
 		Query query = initMongoQuery("Switch", sources, 2000, "000000000000000000000000");
 		Query queryBySource = initMongoQueryBySource("Switch", sources, 2000, "000000000000000000000000");
 
-		LOGGER.info("query:{}", query);
-		LOGGER.info("queryBySource:{}", queryBySource);
+		logger.info("query:{}", query);
+		logger.info("queryBySource:{}", queryBySource);
 		//initSwitchResObject(source);
 		List<ResObject> resObjects = resObjectRepository.find(queryBySource);
-		LOGGER.info("resObjects:{}",resObjects.size());
+		logger.info("resObjects:{}",resObjects.size());
 	}
 	private static final Map<String,List<String>> SOURCE_MAP = new HashMap<>();
 	@Test
@@ -80,7 +80,7 @@ import java.util.stream.Collectors;
 						Aggregation.group("createSource").first("createSource").as("createSource").first("classCode").as("classCode")
 		);
 		AggregationResults<SourceType> aggregate = resObjectRepository.aggregate(aggregation);
-		LOGGER.info("aggregate:{}",aggregate);
+		logger.info("aggregate:{}",aggregate);
 		List<SourceType> mappedResults = aggregate.getMappedResults();
 		for (SourceType mappedResult : mappedResults) {
 			String classCode = mappedResult.getClassCode();
@@ -89,7 +89,7 @@ import java.util.stream.Collectors;
 			List<String> list = SOURCE_MAP.get(classCode);
 			list.add(createSource);
 		}
-		LOGGER.info("SOURCE_LIST:{}",SOURCE_MAP);
+		logger.info("SOURCE_LIST:{}",SOURCE_MAP);
 	}
 	@Test
 	public void sdnClassCodeTest(){
@@ -97,7 +97,7 @@ import java.util.stream.Collectors;
 		for (String key : classCodeMap.keySet()) {
 			joiner.add(key);
 		}
-		LOGGER.info("keys:{}",joiner);
+		logger.info("keys:{}",joiner);
 	}
 	private static void initSwitchResObject(String source) {
 		String url = "http://10.1.60.114/store/openapi/v2/resources/batch_save?apikey=5f18514fe82f11ea90dc005056981a0d&source="+source;
@@ -113,15 +113,15 @@ import java.util.stream.Collectors;
 			resObjectList.add(entries);
 
 		}
-		LOGGER.info("url=:{}",url);
-		LOGGER.info("resObjectList:{}", resObjectList);
+		logger.info("url=:{}",url);
+		logger.info("resObjectList:{}", resObjectList);
 		String body = HttpRequest.post(url).body(resObjectList.toJSONString(0)).execute().body();
-		LOGGER.info("body:{}", body);
+		logger.info("body:{}", body);
 	}
 	@Test
 	public  void  modelDescEntityTest(){
 		Map<String, String> stringStringMap = queryModelDescByType();
-		LOGGER.info("stringStringMap:{}",stringStringMap);
+		logger.info("stringStringMap:{}",stringStringMap);
 	}
 
 	private static Map<String, String> queryModelDescByType() {

@@ -16,14 +16,14 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @EnableMongoRepositories(basePackages = "com.star.wlh.mongo")
 public class MongoApplication {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MongoApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(MongoApplication.class);
 
 	public static void main(String[] args) {
 
 		try{
 			SpringApplication.run(MongoApplication.class, args);
 		}catch (Exception ex){
-			LOGGER.info("启动报错:",ex);
+			logger.info("启动报错:",ex);
 		}
 	}
 

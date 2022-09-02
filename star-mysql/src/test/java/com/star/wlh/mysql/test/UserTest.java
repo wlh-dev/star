@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @date Date : 2022年08月06日 02:45
  */
 @SpringBootTest @RunWith(SpringRunner.class) public class UserTest {
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserTest.class);
 
 	private static ThreadPoolExecutor pool = new ThreadPoolExecutor(10, 20, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(),
 					Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 	@Test public void insertTest() {
 		LoginUserEntity userEntity = new LoginUserEntity();
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		LOGGER.info("uuid:{}", uuid);
+		logger.info("uuid:{}", uuid);
 		userEntity.setUserId(uuid);
 		userEntity.setLoginName(uuid);
 		userEntity.setUserName(uuid);
@@ -66,16 +66,16 @@ import java.util.concurrent.TimeUnit;
 		postArray.add(postBody);
 		String url = "http://10.1.60.114/store/openapi/v2/resources/batch_save?apikey=5f18514fe82f11ea90dc005056981a0d&source=CLOUD";
 		long start = System.currentTimeMillis();
-		LOGGER.info("postBody:{}",postArray);
-		LOGGER.info("开始执行并发请求:{}", start);
+		logger.info("postBody:{}",postArray);
+		logger.info("开始执行并发请求:{}", start);
 		for (int i = 0; i < 100; i++) {
 			pool.execute(() -> {
 				String body = HttpRequest.post(url).body(postArray.toString()).execute().body();
-				LOGGER.info("body:{}",body);
+				logger.info("body:{}",body);
 			});
 		}
 		long end = System.currentTimeMillis();
-		LOGGER.info("结束执行并发请求:{}", end);
-		LOGGER.info("执行时间是:{} 毫秒", end - start);
+		logger.info("结束执行并发请求:{}", end);
+		logger.info("执行时间是:{} 毫秒", end - start);
 	}
 }
