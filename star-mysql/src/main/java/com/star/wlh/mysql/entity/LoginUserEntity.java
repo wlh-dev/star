@@ -12,17 +12,48 @@ import java.util.Objects;
  */
 @DefaultSerializer(CompatibleFieldSerializer.class)
 public class LoginUserEntity implements Serializable {
+	/**
+	 * 用户id
+	 */
 	private String userId;
+	/**
+	 * 用户名称
+	 */
 	private String userName;
+	/**
+	 * 用户英文名称
+	 */
 	private String englishName;
+	/**
+	 * 登陆名称
+	 */
 	private String loginName;
+	/**
+	 * 密码
+	 */
 	private String password;
+	/**
+	 * 登陆授权明文
+	 */
 	private String accessKey;
+	/**
+	 * 登陆授权密文
+	 */
 	private String accessKeySecret;
 
 	public LoginUserEntity() {
 	}
 
+	/**
+	 *
+	 * @param userId 用户id
+	 * @param userName 用户名称
+	 * @param englishName 用户英文名称
+	 * @param loginName 登陆名称
+	 * @param password 密码
+	 * @param accessKey 登陆授权明文
+	 * @param accessKeySecret 登陆授权密文
+	 */
 	public LoginUserEntity(String userId, String userName, String englishName, String loginName, String password, String accessKey,
 					String accessKeySecret) {
 		this.userId = userId;
