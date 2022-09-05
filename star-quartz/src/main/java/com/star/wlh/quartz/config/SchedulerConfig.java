@@ -1,13 +1,13 @@
 package com.star.wlh.quartz.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import org.quartz.Scheduler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -17,25 +17,33 @@ import java.util.Properties;
 @Configuration
 public class SchedulerConfig {
 
-    @Resource
-    private DruidDataSource druidDataSource;
-
-
-    @Bean(name="schedulerFactory")
-    public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
-        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setQuartzProperties(quartzProperties());
-        factory.setApplicationContextSchedulerContextKey("applicationContextKey");
-        factory.setDataSource(druidDataSource);
-        return factory;
+    private final JobFactory jobFactory;
+    @Autowired
+    public SchedulerConfig(JobFactory jobFactory){
+        this.jobFactory = jobFactory;
     }
 
     @Bean
-    public Properties quartzProperties() throws IOException {
+    public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         propertiesFactoryBean.setLocation(new ClassPathResource("/spring-quartz.properties"));
-        //在quartz.properties中的属性被读取并注入后再初始化对象
         propertiesFactoryBean.afterPropertiesSet();
-        return propertiesFactoryBean.getObject();
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        Properties object = propertiesFactoryBean.getObject();
+        if (object != null) {
+            factory.setQuartzProperties(object);
+        }
+        factory.setJobFactory(jobFactory);
+        factory.setApplicationContextSchedulerContextKey("applicationContextKey");
+        factory.setWaitForJobsToCompleteOnShutdown(true);
+        factory.setOverwriteExistingJobs(false);
+        factory.setStartupDelay(10);
+        return factory;
     }
+
+    @Bean(name = "scheduler")
+    public Scheduler scheduler() throws IOException {
+        return schedulerFactoryBean().getScheduler();
+    }
+
 }
