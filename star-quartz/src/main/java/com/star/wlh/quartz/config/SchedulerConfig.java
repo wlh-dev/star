@@ -20,7 +20,8 @@ public class SchedulerConfig {
     @Resource
     private DruidDataSource druidDataSource;
 
-    @Bean(name="SchedulerFactory")
+
+    @Bean(name="schedulerFactory")
     public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setQuartzProperties(quartzProperties());
