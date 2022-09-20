@@ -1,4 +1,4 @@
-package com.star.common.utils;
+package com.star.wlh.common.utils;
 
 /**
  * 定义一些常量。

@@ -1,4 +1,4 @@
-package com.star.common.utils;
+package com.star.wlh.common.utils;
 
 import java.util.Set;
 import java.util.TreeSet;

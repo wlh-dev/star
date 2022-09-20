@@ -1,10 +1,10 @@
 package com.star.wlh.mongo.repository;
 
-import com.star.wlh.mongo.entity.ResObject;
 import com.star.wlh.mongo.entity.SourceType;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -14,12 +14,48 @@ import java.util.List;
  */
 
 public interface ResObjectRepository {
+
 	/**
-	 * 查询列表
+	 *
 	 * @param query
+	 * @param entityClass
+	 * @param collectionName
+	 * @param <T>
 	 * @return
 	 */
-	List<ResObject> find(Query query);
+	<T> List<T> find(Query query,Class<T> entityClass,String collectionName);
 
+	/**
+	 *
+	 * @param query
+	 * @param entityClass
+	 * @param collectionName
+	 * @param <T>
+	 * @return
+	 */
+	public <T> T findOne(Query query, Class<T> entityClass,String collectionName);
+
+	/**
+	 *
+	 * @param aggregate
+	 * @return
+	 */
 	AggregationResults<SourceType> aggregate(Aggregation aggregate);
+
+	/**
+	 *
+	 * @param objectToSave
+	 * @param collectionName
+	 * @param <T>
+	 * @return
+	 */
+	<T> T save(T objectToSave, String collectionName);
+
+	/**
+	 *
+	 * @param query
+	 * @param update
+	 * @param collectionName
+	 */
+	void updateMulti(Query query, Update update, String collectionName);
 }

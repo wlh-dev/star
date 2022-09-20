@@ -1,7 +1,7 @@
 /*
-package com.star.common.entity.redis;
+package com.star.wlh.common.entity.redis;
 
-import com.star.common.config.ConfigValue;
+import com.star.wlh.common.config.ConfigValue;
 import com.star.web.WebApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

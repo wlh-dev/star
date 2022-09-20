@@ -1,4 +1,4 @@
-package com.star.common.config;
+package com.star.wlh.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -35,7 +35,7 @@ public class ResObjectRepositoryTest {
 
 		Query query = new Query(criteria);
 
-		List<ResObject> resObject = resObjectRepository.find(query);
+		List<ResObject> resObject = resObjectRepository.find(query, ResObject.class, "reObject");
 		logger.info("resObject:{}",resObject);
 		Assert.assertNotNull(resObject);
 
