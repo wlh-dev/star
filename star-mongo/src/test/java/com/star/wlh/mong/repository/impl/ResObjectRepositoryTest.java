@@ -4,27 +4,39 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.star.wlh.mongo.MongoApplication;
+import com.star.wlh.MongoBaseTest;
 import com.star.wlh.mongo.base.Constants;
 import com.star.wlh.mongo.base.ConstantsFields;
-import com.star.wlh.mongo.entity.*;
+import com.star.wlh.mongo.entity.Item;
+import com.star.wlh.mongo.entity.ModelDescEntity;
+import com.star.wlh.mongo.entity.PrimarySwitchEntity;
+import com.star.wlh.mongo.entity.RequestItem;
+import com.star.wlh.mongo.entity.ResAttribute;
+import com.star.wlh.mongo.entity.ResObject;
+import com.star.wlh.mongo.entity.ResRelationShip;
+import com.star.wlh.mongo.entity.ResSubObject;
+import com.star.wlh.mongo.entity.SourceType;
+import com.star.wlh.mongo.entity.Tag;
 import com.star.wlh.mongo.repository.ResObjectRepository;
 import org.bson.types.ObjectId;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -32,10 +44,11 @@ import java.util.stream.Collectors;
  * @date Date : 2022年08月17日 16:44
  */
 
-@SpringBootTest(classes = MongoApplication.class) @RunWith(SpringRunner.class) public class ResObjectRepositoryTest {
+public class ResObjectRepositoryTest extends MongoBaseTest {
 	private static final Logger logger = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
 	private static final Map<String, String> classCodeMap = new HashMap<>();
 	private String physicalStatusCode;
+
 	static {
 		classCodeMap.put("VpnGateway", "VpnGateway");
 		classCodeMap.put("VideoConferenceControlUnit", "VideoConferenceControlUnit");
@@ -60,7 +73,6 @@ import java.util.stream.Collectors;
 	}
 
 	@Autowired private ResObjectRepository resObjectRepository;
-
 
 	private static final Map<String, List<String>> SOURCE_MAP = new HashMap<>();
 
@@ -133,7 +145,6 @@ import java.util.stream.Collectors;
 
 	}
 
-
 	/**
 	 * 添加交换机的配置子项信息
 	 * {
@@ -155,7 +166,7 @@ import java.util.stream.Collectors;
 		Criteria criteria = new Criteria();
 		criteria.andOperator(Criteria.where("classCode").is("Switch"), Criteria.where("tags").elemMatch(Criteria.where("K").is("已采集")));
 		Query query = new Query(criteria);
-		List<ResObject> resObjects = resObjectRepository.find(query,ResObject.class,"resObject");
+		List<ResObject> resObjects = resObjectRepository.find(query, ResObject.class, "resObject");
 		logger.info("查询数据量是:{}", resObjects.size());
 		Random random = new Random();
 		for (ResObject resObject : resObjects) {
@@ -179,7 +190,7 @@ import java.util.stream.Collectors;
 			//创建设备管理机箱项
 			logger.info("开始创建设备管理机箱项");
 			// 随机获取一个不和当前的mongoId 相同的父类id
-			ResObject parentResObject = getParentMongoId(resObjects,random,mongoId);
+			ResObject parentResObject = getParentMongoId(resObjects, random, mongoId);
 			ResObject.AttrValues parentAttrValues = parentResObject.getAttrValues();
 			// 创建对象 DeviceManChassisItems
 			ResSubObject item = new ResSubObject();
@@ -191,13 +202,13 @@ import java.util.stream.Collectors;
 			item.setCiId(mongoId);
 			item.setSubClassCode("DeviceManChassisItems");
 			JSONObject itemAttrValues = new JSONObject();
-			itemAttrValues.set("slot_id",random.nextInt());
-			itemAttrValues.set("device_serial_number",parentAttrValues.get("serial_number").getV());
-			itemAttrValues.set("device_name",parentAttrValues.get("name").getV());
+			itemAttrValues.set("slot_id", random.nextInt());
+			itemAttrValues.set("device_serial_number", parentAttrValues.get("serial_number").getV());
+			itemAttrValues.set("device_name", parentAttrValues.get("name").getV());
 			item.setAttrValues(itemAttrValues);
 
 			ResSubObject saveItem = resObjectRepository.save(item, "resSubObject");
-			logger.info("Item:{}",saveItem);
+			logger.info("Item:{}", saveItem);
 
 		}
 
@@ -205,8 +216,8 @@ import java.util.stream.Collectors;
 
 	private ResObject getParentMongoId(List<ResObject> collect, Random random, String mongoId) {
 		ResObject resObject = collect.get(random.nextInt(100));
-		if (mongoId.equals(resObject.getId().toString())){
-			return getParentMongoId(collect,random,mongoId);
+		if (mongoId.equals(resObject.getId().toString())) {
+			return getParentMongoId(collect, random, mongoId);
 		}
 		return resObject;
 	}
@@ -245,16 +256,13 @@ import java.util.stream.Collectors;
 
 	}
 
-
-
- @Test
-	public void process() {
+	@Test public void process() {
 		Map<String, ResRelationShip> relationLbMap = new HashMap<>();
 		// 查询数据库中上次执行的结果, 每次计算任务将“虚设备”标签全量清除
 		logger.info("清除所有虚设备标签");
 		removeVirtualDeviceTags();
-		Map<String,String> virtualSwitchList = new HashMap<>();
-		Map<String,PrimarySwitchEntity> primarySwitchList = new HashMap<>();
+		Map<String, String> virtualSwitchList = new HashMap<>();
+		Map<String, PrimarySwitchEntity> primarySwitchList = new HashMap<>();
 		setPhysicalStatusCode();
 		String midId = "000000000000000000000000";
 		int pageSize = 2000;
@@ -263,14 +271,14 @@ import java.util.stream.Collectors;
 		// 查询总行设备
 		while (true) {
 			Query query = initResObjectQuery(midId, pageSize);
-			List<ResObject> resObject = resObjectRepository.find(query,ResObject.class,"resObject");
+			List<ResObject> resObject = resObjectRepository.find(query, ResObject.class, "resObject");
 			midId = resObject.get(resObject.size() - 1).getId().toString();
-			filterResObject(resObject,virtualSwitchList,primarySwitchList);
+			filterResObject(resObject, virtualSwitchList, primarySwitchList);
 			if (resObject.size() != pageSize) {
 				break;
 			}
 		}
-		logger.info("完成主设备和虚设备的分组 疑似主设备数据量为:{},疑似虚设备数据量为:{} ",primarySwitchList.size(), virtualSwitchList.size());
+		logger.info("完成主设备和虚设备的分组 疑似主设备数据量为:{},疑似虚设备数据量为:{} ", primarySwitchList.size(), virtualSwitchList.size());
 		// 对主设备进行配置子项的查询
 		queryResSubObject(primarySwitchList);
 
@@ -278,10 +286,10 @@ import java.util.stream.Collectors;
 		for (String virtualMongoId : virtualSwitchList.keySet()) {
 			String virtualSerialNumber = virtualSwitchList.get(virtualMongoId);
 			Collection<PrimarySwitchEntity> values = primarySwitchList.values();
-			List<PrimarySwitchEntity> res = values.stream().filter(it->it.getDeviceSerialNumber().equals(virtualSerialNumber)).collect(Collectors.toList());
-			if (!res.isEmpty()){
-				logger.info("查找到虚设备在主设备子项device_serial_number中, 虚设备id:{},虚设备序列号:{},主设备信息:{}",
-								virtualMongoId,virtualSerialNumber,res);
+			List<PrimarySwitchEntity> res = values.stream().filter(it -> it.getDeviceSerialNumber().equals(virtualSerialNumber))
+							.collect(Collectors.toList());
+			if (!res.isEmpty()) {
+				logger.info("查找到虚设备在主设备子项device_serial_number中, 虚设备id:{},虚设备序列号:{},主设备信息:{}", virtualMongoId, virtualSerialNumber, res);
 				//创建关系 主设备包含虚设备
 				for (PrimarySwitchEntity re : res) {
 					ResRelationShip resRelationShip = new ResRelationShip();
@@ -293,33 +301,30 @@ import java.util.stream.Collectors;
 					resRelationShip.setSrcClzCode("Switch");
 					resRelationShip.setTypeCode("Contains");
 					resRelationShip.setTenantId("e10adc3949ba59abbe56e057f20f88dd");
-					relationLbMap.put(primaryMongoId + Constants.KEY_LINE + virtualMongoId + Constants.KEY_LINE + "Contains",resRelationShip);
+					relationLbMap.put(primaryMongoId + Constants.KEY_LINE + virtualMongoId + Constants.KEY_LINE + "Contains", resRelationShip);
 				}
 			}
 		}
 		logger.info("开始保存交换机虚设备和主设备之间包含关系");
-		logger.info("创建关系请求体:{}",relationLbMap);
+		logger.info("创建关系请求体:{}", relationLbMap);
 
 	}
 
 	private void removeVirtualDeviceTags() {
 		Criteria criteria = new Criteria();
 		criteria.andOperator(Criteria.where(ConstantsFields.CLASS_CODE.getKey()).is("Switch"),
-						Criteria.where(ConstantsFields.TENANT_ID.getKey()).is("e10adc3949ba59abbe56e057f20f88dd")
-		);
+						Criteria.where(ConstantsFields.TENANT_ID.getKey()).is("e10adc3949ba59abbe56e057f20f88dd"));
 		Query query = new Query(criteria);
 		Update update = new Update();
-		update.pull("tags",new Tag("虚设备",false));
-		resObjectRepository.updateMulti(query,update,"resObject");
+		update.pull("tags", new Tag("虚设备", false));
+		resObjectRepository.updateMulti(query, update, "resObject");
 	}
 
 	private Query updateSwitchQuery(List<String> virtual) {
 		Criteria criteria = new Criteria();
-		criteria.andOperator(
-						Criteria.where(ConstantsFields.TENANT_ID.getKey()).is("e10adc3949ba59abbe56e057f20f88dd"),
+		criteria.andOperator(Criteria.where(ConstantsFields.TENANT_ID.getKey()).is("e10adc3949ba59abbe56e057f20f88dd"),
 						Criteria.where(ConstantsFields.CLASS_CODE.getKey()).is("Switch"),
-						Criteria.where(ConstantsFields.MONGO_ID.getKey()).in(virtual)
-		);
+						Criteria.where(ConstantsFields.MONGO_ID.getKey()).in(virtual));
 		return new Query(criteria);
 	}
 
@@ -328,11 +333,11 @@ import java.util.stream.Collectors;
 		for (String mongoId : primarySwitchList.keySet()) {
 			queryList.add(mongoId);
 			if (queryList.size() >= 2000) {
-				initResSubObjectQuery(queryList,primarySwitchList);
+				initResSubObjectQuery(queryList, primarySwitchList);
 				queryList.clear();
 			}
 		}
-		initResSubObjectQuery(queryList,primarySwitchList);
+		initResSubObjectQuery(queryList, primarySwitchList);
 		queryList.clear();
 	}
 
@@ -360,8 +365,7 @@ import java.util.stream.Collectors;
 	/**
 	 * 查找物理状态的字典Map
 	 */
-	@Test
-	public void setPhysicalStatusCode() {
+	@Test public void setPhysicalStatusCode() {
 		Criteria criteria = new Criteria();
 		criteria.andOperator(Criteria.where("code").is("physical_status"),
 						Criteria.where(ConstantsFields.TENANT_ID.getKey()).is("e10adc3949ba59abbe56e057f20f88dd"));
@@ -388,7 +392,7 @@ import java.util.stream.Collectors;
 	}
 
 	/**
-	 * @param resObject        mongo查询每页结果
+	 * @param resObject         mongo查询每页结果
 	 * @param virtualSwitchList
 	 * @param primarySwitchList
 	 */
@@ -404,13 +408,13 @@ import java.util.stream.Collectors;
 			//责任中心去掉为空的
 			if (attrValues.get("responsibility_center") == null || attrValues.get("responsibility_center").getV() == null || "".equals(
 							attrValues.get("responsibility_center").getV())) {
-				logger.info("过滤责任中心为空的数据：{}",object);
+				logger.info("过滤责任中心为空的数据：{}", object);
 				continue;
 			} else {
 				// 责任中心去掉包含“测试”和“CS”字样的
 				String responsibilityCenter = attrValues.get("responsibility_center").getV().toString();
 				if (responsibilityCenter.contains("测试") || responsibilityCenter.contains("CS")) {
-					logger.info("过滤掉责任中心包含测试和CS字样数据:{}",object);
+					logger.info("过滤掉责任中心包含测试和CS字样数据:{}", object);
 					continue;
 				}
 			}
@@ -420,21 +424,21 @@ import java.util.stream.Collectors;
 				JSONObject relDatacenterObject = JSONUtil.parseObj(relDatacenter);
 				String name = relDatacenterObject.getStr("name");
 				if ("测试中心".equals(name) || "分行园区".equals(name)) {
-					logger.info("所在可用区去掉“测试中心”和“分行园区”:{}",object);
+					logger.info("所在可用区去掉“测试中心”和“分行园区”:{}", object);
 					continue;
 				}
 			}
 			// 过滤物理状态 非 已加电的设备
 			if (attrValues.get("physical_status") == null || attrValues.get("physical_status").getV() == null || !physicalStatusCode.equals(
 							attrValues.get("physical_status").getV())) {
-				logger.info("过滤物理状态 非 已加电的设备”:{}",object);
+				logger.info("过滤物理状态 非 已加电的设备”:{}", object);
 				continue;
 			}
 
 			// 虚设备ip为空
 			if (attrValues.get("ip") == null || attrValues.get("ip").getV() == null && "".equals(attrValues.get("ip").getV())) {
 				// 疑似虚设备
-				virtualSwitchList.put(mongoId,serialNumber);
+				virtualSwitchList.put(mongoId, serialNumber);
 			}
 
 			// 主设备 标签上有已采集的
@@ -445,7 +449,7 @@ import java.util.stream.Collectors;
 					PrimarySwitchEntity primarySwitchEntity = new PrimarySwitchEntity();
 					primarySwitchEntity.setMongoId(mongoId);
 					primarySwitchEntity.setSerialNumber(serialNumber);
-					primarySwitchList.put(mongoId,primarySwitchEntity);
+					primarySwitchList.put(mongoId, primarySwitchEntity);
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 package com.star.wlh.mong;
 
-import com.star.wlh.mongo.MongoApplication;
+import com.star.wlh.MongoApplication;
 import com.star.wlh.mongo.entity.ResObject;
 import com.star.wlh.mongo.repository.ResObjectRepository;
 import org.junit.Assert;

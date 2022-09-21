@@ -1,4 +1,4 @@
-package com.star.wlh.mongo;
+package com.star.wlh;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @EnableMongoRepositories(basePackages = "com.star.wlh.mongo")
 public class MongoApplication {
+
 	private static final Logger logger = LoggerFactory.getLogger(MongoApplication.class);
 
 	public static void main(String[] args) {

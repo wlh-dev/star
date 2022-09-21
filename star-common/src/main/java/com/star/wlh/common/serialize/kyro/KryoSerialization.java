@@ -17,7 +17,7 @@ public class KryoSerialization implements Serialization {
 		return Serializations.KRYO;
 	}
 
-	@Override public void serialize(Object input, OutputStream outStream) {
+	@Override public void serialize(Object object, OutputStream outStream) {
 		Output output = new Output(outStream);
 		try {
 			KryoFactory.execute(kryo -> {
