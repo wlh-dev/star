@@ -33,9 +33,11 @@ import org.springframework.data.mongodb.core.query.Update;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -210,8 +212,38 @@ public class ResObjectRepositoryTest extends MongoBaseTest {
 			ResSubObject saveItem = resObjectRepository.save(item, "resSubObject");
 			logger.info("Item:{}", saveItem);
 
+
 		}
 
+	}
+
+	private void addTags(Set<String> virtualSwitchIdSet) {
+		List<String> list = new ArrayList<>();
+		for (String mongoId : virtualSwitchIdSet) {
+			list.add(mongoId);
+			if (list.size()>1000){
+				extractedSaveTags(list);
+			}
+		}
+		extractedSaveTags(list);
+	}
+
+	private void extractedSaveTags(List<String> list) {
+		if (list.isEmpty()){
+			return;
+		}
+		Criteria criteria = new Criteria();
+		criteria.andOperator(
+						Criteria.where("_id").in(list)
+		);
+		Query query = new Query(criteria);
+		Update update = new Update();
+		Tag tag = new Tag();
+		tag.setKey("虚设备");
+		tag.setBuiltin(false);
+		update.addToSet("tags",tag);
+		resObjectRepository.updateMulti(query,update,"resObject");
+		list.clear();
 	}
 
 	private ResObject getParentMongoId(List<ResObject> collect, Random random, String mongoId) {
@@ -281,7 +313,7 @@ public class ResObjectRepositoryTest extends MongoBaseTest {
 		logger.info("完成主设备和虚设备的分组 疑似主设备数据量为:{},疑似虚设备数据量为:{} ", primarySwitchList.size(), virtualSwitchList.size());
 		// 对主设备进行配置子项的查询
 		queryResSubObject(primarySwitchList);
-
+		Set<String> virtualSwitchIdSet = new HashSet<>();
 		// 对疑似虚设备和疑似主设备进行处理
 		for (String virtualMongoId : virtualSwitchList.keySet()) {
 			String virtualSerialNumber = virtualSwitchList.get(virtualMongoId);
@@ -291,6 +323,7 @@ public class ResObjectRepositoryTest extends MongoBaseTest {
 			if (!res.isEmpty()) {
 				logger.info("查找到虚设备在主设备子项device_serial_number中, 虚设备id:{},虚设备序列号:{},主设备信息:{}", virtualMongoId, virtualSerialNumber, res);
 				//创建关系 主设备包含虚设备
+				virtualSwitchIdSet.add(virtualMongoId);
 				for (PrimarySwitchEntity re : res) {
 					ResRelationShip resRelationShip = new ResRelationShip();
 					// 主设备id
@@ -307,7 +340,7 @@ public class ResObjectRepositoryTest extends MongoBaseTest {
 		}
 		logger.info("开始保存交换机虚设备和主设备之间包含关系");
 		logger.info("创建关系请求体:{}", relationLbMap);
-
+		addTags(virtualSwitchIdSet);
 	}
 
 	private void removeVirtualDeviceTags() {
