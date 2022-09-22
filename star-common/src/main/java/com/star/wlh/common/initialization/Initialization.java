@@ -24,6 +24,12 @@ import java.util.concurrent.TimeUnit;
  * @date Date : 2022年09月21日 17:55
  */
 @Order(value = 2) @Component public class Initialization implements CommandLineRunner, ApplicationContextAware {
+	/**
+	 * 	AbortPolicy   			当任务添加到线程池中被拒绝时,它将抛出RejectedExecutionException异常,直接抛出异常，这是默认策略；
+	 * 	DiscardPolicy 			当任务添加到线程池中被拒绝时,直接丢弃任务；
+	 * 	DiscardOldestPolicy 当任务添加到线程池中被拒绝时,丢弃阻塞队列中靠最前的任务，并执行当前任务；
+	 * 	CallerRunsPolicy		当任务添加到线程池中被拒绝时,用调用者所在的线程来执行任务；
+ 	 */
 	private static final ThreadPoolExecutor POOL = new ThreadPoolExecutor(2, 10, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(),
 					Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
 	/**
