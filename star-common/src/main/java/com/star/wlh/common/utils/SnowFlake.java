@@ -171,6 +171,8 @@ public class SnowFlake {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("as");
+
 		SnowFlake snowflakeIdGenerator = new SnowFlake();
 
 		// 生成50个id

@@ -14,8 +14,8 @@
         <module>star-mongo</module>
         <module>star-redis</module>
         <module>star-elasticsearch</module>
-        <module>star-mysql</module>
         <module>star-quartz</module>
+        <module>star-user</module>
     </modules>
     <organization>
         <name>wlh</name>
@@ -38,7 +38,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <org.springframework.boot.version>2.3.4.RELEASE</org.springframework.boot.version>
+        <org.springframework.boot.version>2.7.0</org.springframework.boot.version>
         <jedis.version>4.2.0</jedis.version>
 
         <apollo.version>2.0.1</apollo.version>
@@ -48,6 +48,7 @@
         <esotericsoftware.version>4.0.0</esotericsoftware.version>
         <javakaffee-version>0.45</javakaffee-version>
         <easy-excel-version>3.1.0</easy-excel-version>
+        <guava-version>31.1-jre</guava-version>
     </properties>
 
     <dependencyManagement>
@@ -71,11 +72,6 @@
                 <version>${mybatis-version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${org.springframework.boot.version}</version>
-            </dependency>
             <!-- https://mvnrepository.com/artifact/com.esotericsoftware/kryo -->
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
@@ -110,7 +106,27 @@
                 <artifactId>kryo-serializers</artifactId>
                 <version>${javakaffee-version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava-version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
+    <build>
+        <finalName>star</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

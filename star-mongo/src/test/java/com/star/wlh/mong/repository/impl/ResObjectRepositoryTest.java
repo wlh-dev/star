@@ -4,22 +4,13 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.star.wlh.MongoBaseTest;
+import com.star.wlh.MongoApplicationTest;
 import com.star.wlh.mongo.base.Constants;
 import com.star.wlh.mongo.base.ConstantsFields;
-import com.star.wlh.mongo.entity.Item;
-import com.star.wlh.mongo.entity.ModelDescEntity;
-import com.star.wlh.mongo.entity.PrimarySwitchEntity;
-import com.star.wlh.mongo.entity.RequestItem;
-import com.star.wlh.mongo.entity.ResAttribute;
-import com.star.wlh.mongo.entity.ResObject;
-import com.star.wlh.mongo.entity.ResRelationShip;
-import com.star.wlh.mongo.entity.ResSubObject;
-import com.star.wlh.mongo.entity.SourceType;
-import com.star.wlh.mongo.entity.Tag;
+import com.star.wlh.mongo.entity.*;
 import com.star.wlh.mongo.repository.ResObjectRepository;
 import org.bson.types.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +21,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -46,7 +29,7 @@ import java.util.stream.Collectors;
  * @date Date : 2022年08月17日 16:44
  */
 
-public class ResObjectRepositoryTest extends MongoBaseTest {
+public class ResObjectRepositoryTest extends MongoApplicationTest {
 	private static final Logger logger = LoggerFactory.getLogger(ResObjectRepositoryTest.class);
 	private static final Map<String, String> classCodeMap = new HashMap<>();
 	private String physicalStatusCode;
@@ -74,13 +57,15 @@ public class ResObjectRepositoryTest extends MongoBaseTest {
 		classCodeMap.put("Firewall", "10203");
 	}
 
-	@Autowired private ResObjectRepository resObjectRepository;
+	@Autowired
+	private ResObjectRepository resObjectRepository;
 
 	private static final Map<String, List<String>> SOURCE_MAP = new HashMap<>();
 
-	@Test public void ListTest() {
+	@Test
+	public void ListTest() {
 		Aggregation aggregation = Aggregation.newAggregation(
-						Aggregation.group("createSource").first("createSource").as("createSource").first("classCode").as("classCode"));
+				Aggregation.group("createSource").first("createSource").as("createSource").first("classCode").as("classCode"));
 		AggregationResults<SourceType> aggregate = resObjectRepository.aggregate(aggregation);
 		logger.info("aggregate:{}", aggregate);
 		List<SourceType> mappedResults = aggregate.getMappedResults();
@@ -497,14 +482,22 @@ public class ResObjectRepositoryTest extends MongoBaseTest {
 	 */
 	private Query initResObjectQuery(String midId, int pageSize) {
 		Criteria criteria = new Criteria().andOperator(Criteria.where("_id").gt(new ObjectId(midId)),
-						Criteria.where(ConstantsFields.CLASS_CODE.getKey()).is("Switch"),
-						Criteria.where(ConstantsFields.ATTR_VALUES_IS_ACTIVE_V.getKey()).is("Y"));
+				Criteria.where(ConstantsFields.CLASS_CODE.getKey()).is("Switch"),
+				Criteria.where(ConstantsFields.ATTR_VALUES_IS_ACTIVE_V.getKey()).is("Y"));
 		Query query = new Query(criteria);
 		// 根据ID进行排序
 		query.with(Sort.by(Sort.Direction.ASC, "_id"));
 		query.fields().include("attrValues.serial_number").include("attrValues.responsibility_center").include("attrValues.physical_status")
-						.include("attrValues.rel_datacenter").include("attrValues.ip").include("tags");
+				.include("attrValues.rel_datacenter").include("attrValues.ip").include("tags");
 		query.skip(0).limit(pageSize);
 		return query;
+	}
+
+	@Test
+	public void teacherTest() {
+		MathTeacher mathTeacher = new MathTeacher();
+		mathTeacher.fly();
+		ChineseTeacher chineseTeacher = new ChineseTeacher();
+		chineseTeacher.fly();
 	}
 }

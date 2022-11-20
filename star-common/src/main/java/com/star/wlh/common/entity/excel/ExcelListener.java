@@ -17,8 +17,8 @@ public class ExcelListener extends AnalysisEventListener<ResClassEntity> {
 	 * 一行一行去读取excel中的内容(表头不会去读取)
 	 */
 	@Override public void invoke(ResClassEntity data, AnalysisContext context) {
-      logger.info("获取结果{}",data);
-      logger.info("db.resClass.updateMany({\"code\":\"{}\"},{$set: {\"sortIndex\":NumberInt({}),\"fieldLayerCode\":\"{}\"}});",data.getClassCode(),data.getIndex()*10,data.getFieldCode());
+      //logger.info("获取结果{}",data);
+		System.out.println(("db.resClass.updateMany({\"code\":\""+data.getClassCode()+"\"},{$set: {\"sortIndex\":NumberInt("+data.getIndex()*10+")}});"));
 	}
 	/**
 	 * 读取表头中的内容

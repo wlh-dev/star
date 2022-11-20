@@ -1,8 +1,9 @@
 package com.star.wlh.quartz.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.star.wlh.common.entity.base.Result;
+import com.star.wlh.common.entity.base.ResultGenerator;
 import com.star.wlh.quartz.entity.QuartzJob;
-import com.star.wlh.quartz.entity.Result;
 import com.star.wlh.quartz.serivce.QuartzJobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class QuartzController {
      * @param triggerName 触发器名称
      * @param triggerGroup 触发器组
      * @param cron cron表达式
-     * @return Result
+     * @return ResultGenerator
      */
     @PostMapping(path = "/addJob")
     @ResponseBody
@@ -50,10 +51,10 @@ public class QuartzController {
         quartzJob.setCronExpression(cron);
         quartzJobService.saveAndScheduleJob(quartzJob);
         try {
-            return Result.success("添加任务成功");
+            return ResultGenerator.success("添加任务成功");
         } catch (Exception e) {
             logger.error("添加任务失败:",e);
-            return Result.failure("添加任务失败");
+            return ResultGenerator.failure("添加任务失败");
         }
     }
 
@@ -62,16 +63,16 @@ public class QuartzController {
      *
      * @param jName 任务名称
      * @param jGroup 任务组
-     * @return Result
+     * @return ResultGenerator
      */
     @PostMapping(path = "/pauseJob")
     @ResponseBody
     public Result<String> pauseJob(String jName, String jGroup) {
         try {
-            return Result.success("暂停任务成功");
+            return ResultGenerator.success("暂停任务成功");
         } catch (Exception e) {
             logger.error("任务暂停失败",e);
-            return Result.failure("暂停任务失败");
+            return ResultGenerator.failure("暂停任务失败");
         }
     }
 
@@ -80,16 +81,16 @@ public class QuartzController {
      *
      * @param jName 任务名称
      * @param jGroup 任务组
-     * @return Result
+     * @return ResultGenerator
      */
     @PostMapping(path = "/resumeJob")
     @ResponseBody
     public Result<String> resumeJob(String jName, String jGroup) {
         try {
-            return Result.success("恢复任务成功");
+            return ResultGenerator.success("恢复任务成功");
         } catch (Exception e) {
             logger.error("恢复任务失败",e);
-            return  Result.failure("恢复任务失败");
+            return  ResultGenerator.failure("恢复任务失败");
         }
     }
 
@@ -99,16 +100,16 @@ public class QuartzController {
      * @param jName 任务名称
      * @param jGroup 任务组
      * @param cron cron表达式
-     * @return Result
+     * @return ResultGenerator
      */
     @PostMapping(path = "/rescheduleJob")
     @ResponseBody
     public Result<String> rescheduleJob(String jName, String jGroup, String cron) {
         try {
-            return Result.success("重启任务成功");
+            return ResultGenerator.success("重启任务成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure("重启任务失败");
+            return ResultGenerator.failure("重启任务失败");
         }
     }
 
@@ -117,16 +118,16 @@ public class QuartzController {
      *
      * @param jName 任务名称
      * @param jGroup 任务组
-     * @return Result
+     * @return ResultGenerator
      */
     @PostMapping(path = "/deleteJob")
     @ResponseBody
     public Result<String> deleteJob(String jName, String jGroup) {
         try {
-            return Result.success("删除任务成功");
+            return ResultGenerator.success("删除任务成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure("删除任务失败");
+            return ResultGenerator.failure("删除任务失败");
         }
     }
 
@@ -140,8 +141,8 @@ public class QuartzController {
     public Result<List<QuartzJob>> queryJob() {
         List<QuartzJob> query = quartzJobService.query();
         if (CollUtil.isEmpty(query)) {
-            return Result.success("查询任务成功",query);
+            return ResultGenerator.success("查询任务成功",query);
         }
-        return Result.failure("查询任务成功失败，没有数据");
+        return ResultGenerator.failure("查询任务成功失败，没有数据");
     }
 }

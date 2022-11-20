@@ -26,6 +26,11 @@
             <artifactId>star-mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.wlh</groupId>
+            <artifactId>star-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
         <dependency>

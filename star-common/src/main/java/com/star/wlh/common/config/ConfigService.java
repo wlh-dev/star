@@ -1,6 +1,5 @@
 package com.star.wlh.common.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -11,13 +10,16 @@ import javax.annotation.PostConstruct;
 @Component
 public class ConfigService {
 
-	@Autowired
-	private ConfigValue configValue;
+	private final ConfigValue configValue;
 
 	/**
 	 * 把配置数据对象包装成静态常量，以供静态方法使用
 	 */
 	private static ConfigValue commonConfigValue;
+
+	public ConfigService(ConfigValue configValue) {
+		this.configValue = configValue;
+	}
 
 	@PostConstruct
 	public void init() {

@@ -1,5 +1,6 @@
 package com.star.wlh.common.entity.excel;
 
+import com.alibaba.excel.EasyExcel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,10 +46,10 @@ public class ReadMain {
 		for (String value : classCodeMap.keySet()) {
 			stringJoiner.add(value);
 		}
-		logger.info("结果是:{}", stringJoiner);
-		// String outputFile = "/Users/wlh/IdeaProjects/star/star-common/src/main/resources/视图领域和配置项展示顺序.xlsx";
+		//logger.info("结果是:{}", stringJoiner);
+		String outputFile = "/Users/wlh/IdeaProjects/star/star-common/src/main/resources/视图领域和配置项展示顺序.xlsx";
 		// 加上继承了AnalysisEventListener类的监听器
-		// ExcelListener excelListener = new ExcelListener();
-		// EasyExcel.read(outputFile,ResClassEntity.class, excelListener).sheet().doRead();
+		ExcelListener excelListener = new ExcelListener();
+		EasyExcel.read(outputFile,ResClassEntity.class, excelListener).sheet().doRead();
 	}
 }
