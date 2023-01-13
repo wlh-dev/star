@@ -17,7 +17,6 @@ public class UserController {
 
     @RequestMapping("list")
     public List<UserEntity> listWithPage(@RequestParam Integer pageSize, @RequestParam Integer pageNum) {
-
         List<UserEntity> query = userMapper.query();
         return query;
     }

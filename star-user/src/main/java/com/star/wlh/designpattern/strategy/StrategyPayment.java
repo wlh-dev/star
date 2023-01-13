@@ -1,4 +1,4 @@
-package com.star.wlh.algorithm.strategy;
+package com.star.wlh.designpattern.strategy;
 
 /**
  * 定义一个启用支付策略的接口

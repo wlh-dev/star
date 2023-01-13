@@ -27,4 +27,16 @@
         insert into `user`
         values (#{userId}, #{userName}, #{englishName}, #{loginName}, #{password}, #{accessKey}, #{accessKeySecret})
     </insert>
+
+    <select id="findById" parameterType="com.star.wlh.user.entity.UserEntity"
+            resultMap="UserDefined" >
+        select user.USER_ID,
+               user.USER_NAME,
+               user.ENGLISH_NAME,
+               user.LOGIN_NAME,
+               user.PASSWORD,
+               user.ACCESS_KEY,
+               user.ACCESS_KEY_SECRET
+        from user where user.USER_ID = #{userId,jdbcType=VARCHAR}
+    </select>
 </mapper>

@@ -1,4 +1,4 @@
-package com.star.wlh.algorithm.strategy;
+package com.star.wlh.designpattern.strategy;
 
 import org.springframework.stereotype.Service;
 

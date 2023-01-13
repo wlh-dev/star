@@ -1,4 +1,4 @@
-package com.star.wlh.algorithm.strategy;
+package com.star.wlh.designpattern.strategy;
 
 public enum PayType {
     ALI("ali"),

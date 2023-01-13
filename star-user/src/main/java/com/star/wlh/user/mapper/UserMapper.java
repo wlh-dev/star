@@ -24,4 +24,6 @@ public interface UserMapper {
 	 * @param entity
 	 */
 	void insert(UserEntity entity);
+
+	UserEntity findById(UserEntity userId);
 }

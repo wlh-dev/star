@@ -1,8 +1,8 @@
-package com.star.wlh.algorithm.controller;
+package com.star.wlh.designpattern.controller;
 
-import com.star.wlh.algorithm.strategy.Order;
-import com.star.wlh.algorithm.strategy.PayResult;
-import com.star.wlh.algorithm.strategy.StrategyPayment;
+import com.star.wlh.designpattern.strategy.Order;
+import com.star.wlh.designpattern.strategy.PayResult;
+import com.star.wlh.designpattern.strategy.StrategyPayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
