@@ -1,9 +1,8 @@
 package com.star.wlh.common.utils;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadPoolExecutor;
+import cn.hutool.core.thread.ThreadFactoryBuilder;
+
+import java.util.concurrent.*;
 
 /**
  * @author : wlh
@@ -55,5 +54,14 @@ public class ThreadPoolUtils {
 	 * 声明式定义线程池工具类对象静态变量，在所有线程中同步
 	 */
 	private static volatile ThreadPoolUtils threadPoolUtils = null;
+
+	public static final ThreadFactory factoryMaster = ThreadFactoryBuilder.create().setNamePrefix("Master_").build();
+	public static final ThreadFactory factorySlaver = ThreadFactoryBuilder.create().setNamePrefix("Slaver_").build();
+	public static final ThreadPoolExecutor poolMaster = new ThreadPoolExecutor(10, 20, 0, TimeUnit.MICROSECONDS,
+			new ArrayBlockingQueue<>(1024), factoryMaster, new ThreadPoolExecutor.AbortPolicy());
+	public static final ThreadPoolExecutor poolSlaver = new ThreadPoolExecutor(10, 30, 0, TimeUnit.MICROSECONDS,
+			new ArrayBlockingQueue<>(1024), factorySlaver, new ThreadPoolExecutor.AbortPolicy());
+
+
 
 }

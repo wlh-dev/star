@@ -1,9 +1,0 @@
-logging:
-    config: classpath:logging-config.xml
-mybatis:
-    mapper-locations: classpath*:mapper/*.xml
-server:
-    port: 9100
-spring:
-    profiles:
-        active: mysql

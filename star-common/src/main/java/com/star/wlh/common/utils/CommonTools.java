@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.StringJoiner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CommonTools {
     private static final Logger logger = LoggerFactory.getLogger(CommonTools.class);
@@ -30,6 +32,13 @@ public class CommonTools {
                 .add(tags)
                 .toString();
         logger.info(stringJoiner);
+        ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
+        ExecutorService newWorkStealingPool = Executors.newWorkStealingPool(2);
+        ExecutorService newWorkStealingPoolWithOutParallelism = Executors.newWorkStealingPool();
+        ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+        ExecutorService newCachedThreadPoolWithDefaultThreadFactory = Executors.newCachedThreadPool(Executors.defaultThreadFactory());
+
+
     }
 
     public static void print(Integer[] args) {

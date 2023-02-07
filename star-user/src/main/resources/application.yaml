@@ -1,7 +1,0 @@
-server:
-  port: 9001
-spring:
-  profiles:
-    active: mysql
-mybatis:
-  mapper-locations: classpath*:mapper/*.xml
