@@ -6,12 +6,10 @@
 <mapper namespace="com.star.wlh.user.mapper.UserMapper">
     <resultMap id="UserDefined" type="com.star.wlh.user.entity.UserEntity">
         <id property="userId" column="USER_ID" javaType="string" jdbcType="VARCHAR"/>
-        <result property="userName" column="USER_NAME" javaType="string" jdbcType="VARCHAR"/>
-        <result property="englishName" column="ENGLISH_NAME" javaType="string" jdbcType="VARCHAR"/>
+        <result property="nickName" column="NICK_NAME" javaType="string" jdbcType="VARCHAR"/>
+        <result property="realName" column="REAL_NAME" javaType="string" jdbcType="VARCHAR"/>
         <result property="loginName" column="LOGIN_NAME" javaType="string" jdbcType="VARCHAR"/>
         <result property="password" column="PASSWORD" javaType="string" jdbcType="VARCHAR"/>
-        <result property="accessKey" column="ACCESS_KEY" javaType="string" jdbcType="VARCHAR"/>
-        <result property="accessKeySecret" column="ACCESS_KEY_SECRET" javaType="string" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="query" resultMap="UserDefined">
         select user.USER_ID,
@@ -19,24 +17,7 @@
                user.ENGLISH_NAME,
                user.LOGIN_NAME,
                user.PASSWORD,
-               user.ACCESS_KEY,
-               user.ACCESS_KEY_SECRET
         from user;
     </select>
-    <insert id="insert" parameterType="com.star.wlh.user.entity.UserEntity">
-        insert into `user`
-        values (#{userId}, #{userName}, #{englishName}, #{loginName}, #{password}, #{accessKey}, #{accessKeySecret})
-    </insert>
 
-    <select id="findById" parameterType="com.star.wlh.user.entity.UserEntity"
-            resultMap="UserDefined" >
-        select user.USER_ID,
-               user.USER_NAME,
-               user.ENGLISH_NAME,
-               user.LOGIN_NAME,
-               user.PASSWORD,
-               user.ACCESS_KEY,
-               user.ACCESS_KEY_SECRET
-        from user where user.USER_ID = #{userId,jdbcType=VARCHAR}
-    </select>
 </mapper>

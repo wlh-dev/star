@@ -1,18 +1,28 @@
 package com.star.wlh.user.test;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.star.wlh.common.utils.CommonTools;
 import com.star.wlh.common.utils.TimeUtils;
 import com.star.wlh.user.BaseTest;
 import com.star.wlh.user.entity.UserEntity;
 import com.star.wlh.user.mapper.UserMapper;
+import lombok.SneakyThrows;
+import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.beans.Beans;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class CompletableFutureTest extends BaseTest {
+    private static final Logger logger = LoggerFactory.getLogger(CompletableFutureTest.class);
+
     public static final ThreadFactory factoryMaster = ThreadFactoryBuilder.create().setNamePrefix("Master_").build();
     public static final ThreadFactory factorySlaver = ThreadFactoryBuilder.create().setNamePrefix("Slaver_").build();
     public static final ThreadPoolExecutor poolMaster = new ThreadPoolExecutor(10, 20, 0, TimeUnit.MICROSECONDS,
@@ -30,22 +40,16 @@ public class CompletableFutureTest extends BaseTest {
     public void completableSupplyAsyncTest() {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第1步");
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserId("001");
-            UserEntity entity = userMapper.findById(userEntity);
-            return entity.getUserName();
+            UserEntity userEntity = userMapper.selectById("001");
+            return userEntity.getRealName();
         }, poolMaster).thenApplyAsync((userName) -> {
             CommonTools.printTimeAndCurrentThread("执行第2步");
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserId("002");
-            UserEntity entity = userMapper.findById(userEntity);
-            return userName + "_" + entity.getUserName();
+            UserEntity userEntity = userMapper.selectById("001");
+            return userName + "_" + userEntity.getRealName();
         }, poolMaster).thenApplyAsync((userName) -> {
             CommonTools.printTimeAndCurrentThread("执行第3步");
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserId("003");
-            UserEntity entity = userMapper.findById(userEntity);
-            return userName + "_" + entity.getUserName();
+            UserEntity userEntity = userMapper.selectById("001");
+            return userName + "_" + userEntity.getRealName();
         }, poolMaster);
         String result;
         try {
@@ -54,6 +58,26 @@ public class CompletableFutureTest extends BaseTest {
             throw new RuntimeException(e);
         }
         CommonTools.printTimeAndCurrentThread(result);
+    }
+    @DisplayName("thenCombine测试")
+    @Test
+    public void completableThenCombine(){
+        CompletableFuture<Integer> completableFuture1 = CompletableFuture.supplyAsync(() -> {
+            TimeUtils.sleep(1000);
+            return 10;
+        }, poolMaster);
+        CompletableFuture<Integer> completableFuture2 = CompletableFuture.supplyAsync(() -> {
+            TimeUtils.sleep(2000);
+            return 20;
+        }, poolMaster);
+        CompletableFuture<Integer> completableFuture3 = completableFuture1.thenCombineAsync(completableFuture2, (result1, result2) -> {
+            return result1 * result2;
+        },poolMaster);
+        CompletableFuture<Integer> completableFuture4 = completableFuture3.thenCombineAsync(completableFuture1, (result1, result2) -> {
+            return result1 * result2;
+        }, poolMaster);
+        Integer join = completableFuture4.join();
+        assert join ==2000 : "数据计算失败";
 
     }
 
@@ -64,20 +88,20 @@ public class CompletableFutureTest extends BaseTest {
             CommonTools.printTimeAndCurrentThread("执行第1步");
             UserEntity userEntity = new UserEntity();
             userEntity.setUserId("001");
-            UserEntity entity = userMapper.findById(userEntity);
-            CommonTools.printTimeAndCurrentThread(entity.getUserName());
+          //  UserEntity entity = userMapper.findById(userEntity);
+          //  CommonTools.printTimeAndCurrentThread(entity.getRealName());
         }, poolMaster).thenRunAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第2步");
             UserEntity userEntity = new UserEntity();
             userEntity.setUserId("002");
-            UserEntity entity = userMapper.findById(userEntity);
-            CommonTools.printTimeAndCurrentThread(entity.getUserName());
+           // UserEntity entity = userMapper.findById(userEntity);
+          //  CommonTools.printTimeAndCurrentThread(entity.getRealName());
         }, poolMaster).thenRunAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第3步");
             UserEntity userEntity = new UserEntity();
             userEntity.setUserId("003");
-            UserEntity entity = userMapper.findById(userEntity);
-            CommonTools.printTimeAndCurrentThread(entity.getUserName());
+           // UserEntity entity = userMapper.findById(userEntity);
+          //  CommonTools.printTimeAndCurrentThread(entity.getRealName());
         }, poolMaster);
         try {
             future.get();
@@ -175,6 +199,20 @@ public class CompletableFutureTest extends BaseTest {
             return null;
         });
         future.get();
+    }
+    @Test
+    @DisplayName("测试")
+    public void testFutureTask() throws ExecutionException, InterruptedException {
+        FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
+            @Override public String call() throws Exception {
+                logger.info("come in here");
+                return "hello Callable";
+            }
+        });
+        Thread thread = new Thread(futureTask, "futureTask");
+        thread.start();
+        logger.info("task started,{}",futureTask.get());
+        boolean done = futureTask.isDone();
     }
 
 }

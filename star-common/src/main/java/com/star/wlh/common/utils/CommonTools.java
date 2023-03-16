@@ -1,6 +1,7 @@
 package com.star.wlh.common.utils;
 
 
+import cn.hutool.core.util.DesensitizedUtil;
 import org.openjdk.jol.vm.VM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,8 @@ public class CommonTools {
     private static final Logger logger = LoggerFactory.getLogger(CommonTools.class);
 
     public static void main(String[] args) {
-        System.out.println(VM.current().details());
+        String email = DesensitizedUtil.email("825828826@qq.com");
+        System.out.println(email);
     }
 
     public static void sleep(Long time) {

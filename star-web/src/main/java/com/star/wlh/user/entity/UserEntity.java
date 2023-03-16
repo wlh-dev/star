@@ -1,92 +1,62 @@
 package com.star.wlh.user.entity;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * @author : wlh
  * @date Date : 2022年08月06日 00:53
  */
 @DefaultSerializer(CompatibleFieldSerializer.class)
+@TableName(schema = "study",value = "user")
 public class UserEntity implements Serializable {
 	/**
 	 * 用户id
 	 */
+	@TableId
 	private String userId;
 	/**
 	 * 用户名称
 	 */
-	private String userName;
+	private String nickName;
 	/**
 	 * 用户英文名称
 	 */
-	private String englishName;
+	private String realName;
 	/**
 	 * 登陆名称
 	 */
 	private String loginName;
-	/**
-	 * 密码
-	 */
-	private String password;
-	/**
-	 * 登陆授权明文
-	 */
-	private String accessKey;
-	/**
-	 * 登陆授权密文
-	 */
-	private String accessKeySecret;
 
 	public UserEntity() {
 	}
 
-	/**
-	 * @param userId          用户id
-	 * @param userName        用户名称
-	 * @param englishName     用户英文名称
-	 * @param loginName       登陆名称
-	 * @param password        密码
-	 * @param accessKey       登陆授权明文
-	 * @param accessKeySecret 登陆授权密文
-	 */
-	public UserEntity(String userId, String userName, String englishName, String loginName, String password, String accessKey,
-					  String accessKeySecret) {
-		this.userId = userId;
-		this.userName = userName;
-		this.englishName = englishName;
-		this.loginName = loginName;
-		this.password = password;
-		this.accessKey = accessKey;
-		this.accessKeySecret = accessKeySecret;
+	@Override public String toString() {
+		return new StringJoiner(", ", UserEntity.class.getSimpleName() + "[", "]").add("userId='" + userId + "'")
+				.add("nickName='" + nickName + "'").add("realName='" + realName + "'").add("loginName='" + loginName + "'").toString();
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	@Override public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
+		if (o == null || getClass() != o.getClass())
 			return false;
-		}
 		UserEntity that = (UserEntity) o;
-		return Objects.equals(userId, that.userId) && Objects.equals(userName, that.userName) && Objects.equals(englishName, that.englishName)
-				&& Objects.equals(loginName, that.loginName) && Objects.equals(password, that.password) && Objects.equals(accessKey,
-				that.accessKey) && Objects.equals(accessKeySecret, that.accessKeySecret);
+		return Objects.equals(userId, that.userId) && Objects.equals(nickName, that.nickName) && Objects.equals(realName, that.realName)
+				&& Objects.equals(loginName, that.loginName);
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(userId, userName, englishName, loginName, password, accessKey, accessKeySecret);
-	}
-
-	@Override
-	public String toString() {
-		return JSONUtil.toJsonStr(this);
+	@Override public int hashCode() {
+		return Objects.hash(userId, nickName, realName, loginName);
 	}
 
 	public String getUserId() {
@@ -97,20 +67,20 @@ public class UserEntity implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getNickName() {
+		return nickName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
-	public String getEnglishName() {
-		return englishName;
+	public String getRealName() {
+		return realName;
 	}
 
-	public void setEnglishName(String englishName) {
-		this.englishName = englishName;
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 
 	public String getLoginName() {
@@ -121,27 +91,10 @@ public class UserEntity implements Serializable {
 		this.loginName = loginName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getAccessKey() {
-		return accessKey;
-	}
-
-	public void setAccessKey(String accessKey) {
-		this.accessKey = accessKey;
-	}
-
-	public String getAccessKeySecret() {
-		return accessKeySecret;
-	}
-
-	public void setAccessKeySecret(String accessKeySecret) {
-		this.accessKeySecret = accessKeySecret;
+	public UserEntity(String userId, String nickName, String realName, String loginName) {
+		this.userId = userId;
+		this.nickName = nickName;
+		this.realName = realName;
+		this.loginName = loginName;
 	}
 }

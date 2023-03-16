@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * @author 陈皮
+ * @author wlh
  * @version 1.0
  * @description 雪花算法ID生成器
  * @date 2022/4/3
@@ -130,7 +130,7 @@ public class SnowflakeIdGenerator {
 
     // 验证生成100万个id需要多久
     long startTime = System.currentTimeMillis();
-    for (int i = 0; i < 1000000; i++) {
+    for (int i = 0; i < 100000000; i++) {
       snowflakeIdGenerator.nextId();
     }
     System.out.println(System.currentTimeMillis() - startTime);
