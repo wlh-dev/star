@@ -1,5 +1,7 @@
 package com.star.wlh.user.service;
 
+import com.star.wlh.user.entity.UserEntity;
+
 public interface UserService {
-	void findById(String id);
+	UserEntity findById(String id);
 }

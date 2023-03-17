@@ -1,9 +1,6 @@
 package com.star.wlh.user.config;
 
 import com.google.gson.Gson;
-import lombok.Data;
-
-import java.util.StringJoiner;
 
 public class Result<T> {
 
@@ -52,7 +49,6 @@ public class Result<T> {
      * @return
      */
     public static<T> Result<T> ok(T data){
-        Result<T> result = build(data);
         return build(data, ResultCodeEnum.SUCCESS);
     }
 

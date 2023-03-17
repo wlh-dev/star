@@ -4,20 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.star.wlh.user.mapper.UserMapper">
-    <resultMap id="UserDefined" type="com.star.wlh.user.entity.UserEntity">
+    <resultMap id="UserEntity" type="com.star.wlh.user.entity.UserEntity">
         <id property="userId" column="USER_ID" javaType="string" jdbcType="VARCHAR"/>
         <result property="nickName" column="NICK_NAME" javaType="string" jdbcType="VARCHAR"/>
         <result property="realName" column="REAL_NAME" javaType="string" jdbcType="VARCHAR"/>
         <result property="loginName" column="LOGIN_NAME" javaType="string" jdbcType="VARCHAR"/>
         <result property="password" column="PASSWORD" javaType="string" jdbcType="VARCHAR"/>
+        <result property="gender" column="GENDER"/>
     </resultMap>
-    <select id="query" resultMap="UserDefined">
+    <select id="selectByUserId" resultMap="UserEntity" parameterType="string">
         select user.USER_ID,
-               user.USER_NAME,
-               user.ENGLISH_NAME,
+               user.NICK_NAME,
+               user.REAL_NAME,
                user.LOGIN_NAME,
                user.PASSWORD,
-        from user;
+               user.GENDER
+        from user where user.USER_ID = #{userId,jdbcType=VARCHAR}
     </select>
 
 </mapper>

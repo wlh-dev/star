@@ -1,15 +1,18 @@
 package com.star.wlh.user.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
-
-import java.util.StringJoiner;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum GenderEnum implements IEnum<Integer> {
 	MAN(1,"男"),
 	WOMAN(0,"女"),
-	UNKNOWN(3,"未知");
+	//default
+	UNKNOWN(2,"未知");
 
+	@EnumValue
 	private final Integer value;
+	@JsonValue
 	private final String desc;
 
 	GenderEnum(int value, String desc) {
@@ -23,5 +26,9 @@ public enum GenderEnum implements IEnum<Integer> {
 
 	@Override public Integer getValue() {
 		return value;
+	}
+
+	public String getDesc() {
+		return desc;
 	}
 }

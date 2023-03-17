@@ -1,16 +1,13 @@
 package com.star.wlh.user.entity;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.star.wlh.user.enums.GenderEnum;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * @author : wlh
@@ -36,27 +33,33 @@ public class UserEntity implements Serializable {
 	 * 登陆名称
 	 */
 	private String loginName;
+	private String password;
+	private GenderEnum gender;
 
-	public UserEntity() {
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("UserEntity{");
+		sb.append("userId='").append(userId).append('\'');
+		sb.append(", nickName='").append(nickName).append('\'');
+		sb.append(", realName='").append(realName).append('\'');
+		sb.append(", loginName='").append(loginName).append('\'');
+		sb.append(", password='").append(password).append('\'');
+		sb.append(", gender=").append(gender.toString());
+		sb.append('}');
+		return sb.toString();
 	}
 
-	@Override public String toString() {
-		return new StringJoiner(", ", UserEntity.class.getSimpleName() + "[", "]").add("userId='" + userId + "'")
-				.add("nickName='" + nickName + "'").add("realName='" + realName + "'").add("loginName='" + loginName + "'").toString();
-	}
-
-	@Override public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 		UserEntity that = (UserEntity) o;
-		return Objects.equals(userId, that.userId) && Objects.equals(nickName, that.nickName) && Objects.equals(realName, that.realName)
-				&& Objects.equals(loginName, that.loginName);
+		return Objects.equals(userId, that.userId) && Objects.equals(nickName, that.nickName) && Objects.equals(realName, that.realName) && Objects.equals(loginName, that.loginName) && Objects.equals(password, that.password) && gender == that.gender;
 	}
 
-	@Override public int hashCode() {
-		return Objects.hash(userId, nickName, realName, loginName);
+	@Override
+	public int hashCode() {
+		return Objects.hash(userId, nickName, realName, loginName, password, gender);
 	}
 
 	public String getUserId() {
@@ -91,10 +94,31 @@ public class UserEntity implements Serializable {
 		this.loginName = loginName;
 	}
 
-	public UserEntity(String userId, String nickName, String realName, String loginName) {
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public GenderEnum getGender() {
+		return gender;
+	}
+
+	public void setGender(GenderEnum gender) {
+		this.gender = gender;
+	}
+
+	public UserEntity() {
+	}
+
+	public UserEntity(String userId, String nickName, String realName, String loginName, String password, GenderEnum gender) {
 		this.userId = userId;
 		this.nickName = nickName;
 		this.realName = realName;
 		this.loginName = loginName;
+		this.password = password;
+		this.gender = gender;
 	}
 }
