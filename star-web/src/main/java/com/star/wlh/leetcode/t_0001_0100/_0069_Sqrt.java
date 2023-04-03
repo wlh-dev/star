@@ -1,6 +1,6 @@
-package com.star.wlh.leetcode;
+package com.star.wlh.leetcode.t_0001_0100;
 
-public class _69_Sqrt {
+public class _0069_Sqrt {
     public static void main(String[] args) {
         int solution = solution(6);
         System.out.println(solution);

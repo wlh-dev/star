@@ -1,8 +1,8 @@
-package com.star.wlh.leetcode;
+package com.star.wlh.leetcode.t_0201_0300;
 
 import java.util.Arrays;
 
-public class _217_ContainsDuplicate {
+public class _0217_ContainsDuplicate {
     public static void main(String[] args) {
         int[] nums = new int[]{1, 2, 3, 4, 4};
         boolean b = containsDuplicate(nums);

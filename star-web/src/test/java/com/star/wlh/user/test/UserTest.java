@@ -1,6 +1,7 @@
 package com.star.wlh.user.test;
 
-import com.google.gson.Gson;
+import com.star.wlh.common.utils.ThreadPoolUtils;
+import com.star.wlh.common.utils.TimeUtils;
 import com.star.wlh.user.BaseTest;
 import com.star.wlh.user.config.Result;
 import com.star.wlh.user.entity.UserEntity;
@@ -10,16 +11,19 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 public class UserTest extends BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(UserTest.class);
-
+    @Autowired
+    private DataSourceTransactionManager dataSourceTransactionManager;
+    @Autowired
+    private TransactionDefinition transactionDefinition;
     @Autowired
     private UserMapper userMapper;
     @Test
@@ -42,5 +46,11 @@ public class UserTest extends BaseTest {
 
         //UserEntity query = userMapper.findById(userEntity);
        // logger.info("查询到的数据是:{}",query);
+    }
+    @Test
+    @DisplayName("测试事务")
+    public void userTransactionalTest(){
+
+
     }
 }

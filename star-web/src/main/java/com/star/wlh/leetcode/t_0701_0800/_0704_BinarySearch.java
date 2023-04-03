@@ -1,9 +1,9 @@
-package com.star.wlh.leetcode;
+package com.star.wlh.leetcode.t_0701_0800;
 
 /**
  * 二分查找
  */
-public class _704_BinarySearch {
+public class _0704_BinarySearch {
     public static void main(String[] args) {
         int[] nums = new int[]{-1, 1, 2, 3, 4, 5};
         int target = 3;

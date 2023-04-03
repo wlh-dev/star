@@ -1,6 +1,6 @@
-package com.star.wlh.leetcode;
+package com.star.wlh.leetcode.t_0201_0300;
 
-public class _206_ReverseLinkedList {
+public class _0206_ReverseLinkedList {
     public static void main(String[] args) {
         ListNode listNode1 = new ListNode(1);
         ListNode listNode2 = new ListNode(2);
