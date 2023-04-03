@@ -15,7 +15,6 @@ public class MyInitializer implements ApplicationContextInitializer<AnnotationCo
     @Bean
     public void myInitializerTest() {
         Splitter splitter = Splitter.on(",").trimResults().omitEmptyStrings();
-
     }
 
 }

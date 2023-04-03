@@ -1,8 +1,6 @@
 package com.star.wlh.user.annotation;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -17,14 +15,12 @@ public class MonitorAop {
 
 	@Before(value = "execution(public * *(..)) && @annotation(monitorAnnotation)")
 	public void onMonitor( JoinPoint joinPoint,MonitorAnnotation monitorAnnotation){
-		logger.info("进入切面，获取到有该注解的类");
 		MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
 		String[] parameterNames = methodSignature.getParameterNames();
 		for (String parameterName : parameterNames) {
 			logger.info("parameter {}" , parameterName);
 		}
 		Object[] args = joinPoint.getArgs();
-		logger.info("参数：{}",args);
 		Object[] args1 = joinPoint.getArgs();
 	}
 }

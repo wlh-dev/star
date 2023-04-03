@@ -17,7 +17,7 @@ public class Result<T> {
 
     // 返回数据
     protected static <T> Result<T> build(T data) {
-        Result<T> result = new Result<T>();
+        Result<T> result = new Result<>();
         if (data != null) {
             result.setData(data);
         }
@@ -58,8 +58,8 @@ public class Result<T> {
 
     /**
      * 操作失败
-     * @param data
-     * @param <T>
+     * @param data 元数据
+     * @param <T> 数据类型
      * @return
      */
     public static<T> Result<T> fail(T data){
