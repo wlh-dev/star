@@ -125,12 +125,10 @@ public class SnowflakeIdGenerator {
     for (int i = 0; i < 50; i++) {
       set.add(snowflakeIdGenerator.nextId());
     }
-    System.out.println(set.size());
-    System.out.println(set);
 
     // 验证生成100万个id需要多久
     long startTime = System.currentTimeMillis();
-    for (int i = 0; i < 100000000; i++) {
+    for (int i = 0; i < 1000000; i++) {
       snowflakeIdGenerator.nextId();
     }
     System.out.println(System.currentTimeMillis() - startTime);
