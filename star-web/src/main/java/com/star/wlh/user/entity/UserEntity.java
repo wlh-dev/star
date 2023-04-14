@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
+import com.esotericsoftware.kryo.serializers.FieldSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.star.wlh.user.enums.GenderEnum;
 
 import java.io.Serializable;
@@ -13,6 +15,7 @@ import java.util.Objects;
  * @author : wlh
  * @date Date : 2022年08月06日 00:53
  */
+@JsonIgnoreProperties
 @DefaultSerializer(CompatibleFieldSerializer.class)
 @TableName(schema = "study",value = "user")
 public class UserEntity implements Serializable {
@@ -20,20 +23,21 @@ public class UserEntity implements Serializable {
 	 * 用户id
 	 */
 	@TableId
-	private String userId;
+	private Serializable userId;
 	/**
 	 * 用户名称
 	 */
-	private String nickName;
+	@FieldSerializer.Optional("ignored")
+	private Serializable nickName;
 	/**
 	 * 用户英文名称
 	 */
-	private String realName;
+	private Serializable realName;
 	/**
 	 * 登陆名称
 	 */
-	private String loginName;
-	private String password;
+	private Serializable loginName;
+	private Serializable password;
 	private GenderEnum gender;
 
 	@Override
@@ -62,43 +66,43 @@ public class UserEntity implements Serializable {
 		return Objects.hash(userId, nickName, realName, loginName, password, gender);
 	}
 
-	public String getUserId() {
+	public Serializable getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Serializable userId) {
 		this.userId = userId;
 	}
 
-	public String getNickName() {
+	public Serializable getNickName() {
 		return nickName;
 	}
 
-	public void setNickName(String nickName) {
+	public void setNickName(Serializable nickName) {
 		this.nickName = nickName;
 	}
 
-	public String getRealName() {
+	public Serializable getRealName() {
 		return realName;
 	}
 
-	public void setRealName(String realName) {
+	public void setRealName(Serializable realName) {
 		this.realName = realName;
 	}
 
-	public String getLoginName() {
+	public Serializable getLoginName() {
 		return loginName;
 	}
 
-	public void setLoginName(String loginName) {
+	public void setLoginName(Serializable loginName) {
 		this.loginName = loginName;
 	}
 
-	public String getPassword() {
+	public Serializable getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(Serializable password) {
 		this.password = password;
 	}
 

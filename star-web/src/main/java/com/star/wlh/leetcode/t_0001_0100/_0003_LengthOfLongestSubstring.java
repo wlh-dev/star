@@ -1,5 +1,8 @@
 package com.star.wlh.leetcode.t_0001_0100;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 3. 无重复字符的最长子串
  * 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
@@ -22,12 +25,28 @@ package com.star.wlh.leetcode.t_0001_0100;
  */
 public class _0003_LengthOfLongestSubstring {
     public static void main(String[] args) {
-
+        String s = "asdgladfjkmhsfg";
+        int i = lengthOfLongestSubstring(s);
+        System.out.println(i);
     }
     public static int lengthOfLongestSubstring(String s){
+        if (s.length() == 0){
+            return 0;
+        }
+        int maxLength = 1;
+        int startIndex = 1;
+        for (int i = 0; i < s.length(); i++) {
+           int index=  s.indexOf(s.charAt(i),i-startIndex);
+           if (index<i){
+               startIndex = i-index;
+           }else {
+               startIndex++;
+           }
+            maxLength = Math.max(maxLength,startIndex);
+            System.out.println(index);
+        }
 
-
-        return 0;
+        return maxLength;
 
     }
 }
