@@ -1,6 +1,5 @@
 package com.star.wlh.user.service.impl;
 
-import com.star.wlh.user.controller.MonitorController;
 import com.star.wlh.user.entity.UserEntity;
 import com.star.wlh.user.mapper.UserMapper;
 import com.star.wlh.user.service.UserService;
@@ -12,7 +11,7 @@ import javax.annotation.Resource;
 
 @Service
 public class UserServiceImpl implements UserService {
-	private static final Logger logger = LoggerFactory.getLogger(MonitorController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Resource
 	private UserMapper userMapper;
