@@ -41,4 +41,9 @@ public class UserController {
         logger.info("查询返回数据是:{}",ok);
         return ok;
     }
+    @RequestMapping("retry")
+    public Result<UserEntity> retry(){
+        UserEntity retry = userService.retry();
+        return Result.ok(retry);
+    }
 }
