@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.star.wlh.user.enums.GenderEnum;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ import java.util.Objects;
 @DefaultSerializer(CompatibleFieldSerializer.class)
 @TableName(schema = "study",value = "user")
 public class UserEntity implements Serializable {
+	private static final long serialVersionUID = -6564022808907262054L;
 	/**
 	 * 用户id
 	 */
@@ -32,11 +34,13 @@ public class UserEntity implements Serializable {
 	/**
 	 * 用户英文名称
 	 */
+	@FieldSerializer.Optional("ignored")
 	private Serializable realName;
 	/**
 	 * 登陆名称
 	 */
 	private Serializable loginName;
+
 	private Serializable password;
 	private GenderEnum gender;
 

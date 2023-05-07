@@ -55,8 +55,9 @@ public class ThreadLocalTest extends BaseTest {
 
     @Test
     void clockTest() {
-        ZoneId zone = clock.getZone();
-        logger.info("zoneId:{}", zone);
+        ThreadLocal<Map<String, String>> threadContext = ThreadLocal.withInitial(HashMap::new);
+        Map<String, String> stringStringMap = threadContext.get();
+
     }
 
 }
