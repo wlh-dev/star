@@ -1,9 +1,12 @@
 server:
   port: 9001
+  shutdown: immediate
 logging:
   config: classpath:logging-config.xml
 spring:
-#  sql:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  #  sql:
 #    init:
 #      schema-locations: classpath:org/springframework/batch/core/schema-mysql.sql
 #      mode: always
