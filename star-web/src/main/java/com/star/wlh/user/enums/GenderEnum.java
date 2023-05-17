@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum GenderEnum implements IEnum<Integer> {
-	MAN(1,"男"),
-	WOMAN(0,"女"),
 	//default
-	UNKNOWN(2,"未知");
+	UNKNOWN(2,"未知"),
+	MAN(1,"男"),
+	WOMAN(0,"女");
+
+
 
 	@EnumValue
 	private final Integer value;

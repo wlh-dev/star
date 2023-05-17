@@ -1,5 +1,6 @@
 package com.star.wlh.common.serialize.kyro;
 
+import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.star.wlh.common.serialize.Serialization;
 import com.star.wlh.common.serialize.SerializationFactory.Serializations;
@@ -31,10 +32,14 @@ public class KryoSerialization implements Serialization {
 	}
 
 	@Override public <T> T deserialize(InputStream inputStream, Class<T> type) {
-		return null;
+		try (Input input = new Input(inputStream)) {
+			return KryoFactory.execute(kryo -> type.cast(kryo.readClassAndObject(input)));
+		}
 	}
 
 	@Override public <T> T deserialize(byte[] data, Class<T> type) {
-		return null;
+		try (Input input = new Input(data)) {
+			return KryoFactory.execute(kryo -> type.cast(kryo.readClassAndObject(input)));
+		}
 	}
 }
