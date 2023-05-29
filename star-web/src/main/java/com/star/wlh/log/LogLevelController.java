@@ -78,10 +78,12 @@ public class LogLevelController {
      */
     @RequestMapping(value = "test")
     public void logLevelTest(){
+        logger.trace("logger trace");
         logger.warn("logger warn");
         logger.debug("logger debug");
         logger.info("logger info");
         logger.error("logger error");
+
 
     }
 

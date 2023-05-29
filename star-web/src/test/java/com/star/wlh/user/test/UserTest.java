@@ -8,6 +8,9 @@ import com.star.wlh.user.config.Result;
 import com.star.wlh.user.entity.UserEntity;
 import com.star.wlh.user.mapper.UserMapper;
 import com.star.wlh.user.service.UserService;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -56,10 +59,17 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("根据ID查询")
+    public void userFindByIdTest() {
+        UserEntity user = userService.findById("001");
+        logger.info("查询数据结果：{}", user);
+    }
+
+    @Test
     @DisplayName("序列化测试")
-    public void serialTest(){
+    public void serialTest() {
         Serialization aDefault = SerializationFactory.getDefault();
         SerializationFactory.Serializations code = aDefault.getCode();
-        logger.info("code:{}",code);
+        logger.info("code:{}", code);
     }
 }
