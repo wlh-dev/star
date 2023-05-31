@@ -13,7 +13,7 @@ public class ExpressionTest extends BaseTest {
         System.out.println(Collections.emptyList());
         System.out.println(Collections.singletonList(""));
         System.out.println(Arrays.asList(""));
-        Double res = 26.57/1.674;
+        Double res = 26.57 / 1.674;
         System.out.println(res);
     }
 }
