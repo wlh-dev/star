@@ -1,6 +1,5 @@
 package com.star.wlh.config;
 
-import com.star.wlh.common.serialize.Serialization;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;

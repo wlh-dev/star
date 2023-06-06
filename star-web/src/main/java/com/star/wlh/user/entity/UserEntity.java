@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.kafka.common.protocol.types.Field;
 
 import java.beans.Transient;
 import java.io.Serializable;
@@ -35,27 +36,27 @@ public class UserEntity implements Serializable {
 	 */
 	@TableId()
 	@TableField(value = "USER_ID",jdbcType = JdbcType.VARCHAR)
-	private Serializable userId;
+	private String userId;
 	/**
 	 * 用户名称
 	 */
 	@TableField(value = "NICK_NAME",typeHandler = MybatisJsonTypeHandler.class)
-	private Serializable nickName;
+	private String nickName;
 	/**
 	 * 用户英文名称
 	 */
 	@TableField(value = "REAL_NAME",typeHandler = MybatisJsonTypeHandler.class)
-	private Serializable realName;
+	private String realName;
 	/**
 	 * 登陆名称
 	 */
 	@TableField(value = "LOGIN_NAME",typeHandler = MybatisJsonTypeHandler.class)
-	private Serializable loginName;
+	private String loginName;
 	/**
 	 * 登录密码
 	 */
 	@TableField(value = "PASSWORD",typeHandler = MybatisJsonTypeHandler.class)
-	private Serializable password;
+	private String password;
 	/**
 	 * 性别
 	 */

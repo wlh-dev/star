@@ -12,9 +12,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVo {
-    @NotNull(groups = {UserInsert.class, UserUpdate.class})
+    @NotNull(message = "Id不能为空",groups = {UserInsert.class, UserUpdate.class})
     private String id;
-    @NotBlank(groups = {UserUpdate.class})
+    @NotBlank(message = "name不能为空",groups = {UserUpdate.class})
     private String name;
 
     @Valid

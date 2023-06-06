@@ -1,12 +1,12 @@
 package com.star.wlh.user.controller;
 
 import com.star.wlh.user.config.Result;
-import com.star.wlh.user.dto.UserInsert;
-import com.star.wlh.user.dto.UserVo;
+import com.star.wlh.user.dto.*;
 import com.star.wlh.user.entity.UserEntity;
 import com.star.wlh.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.bind.Name;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +36,10 @@ public class UserController {
     }
 
     @RequestMapping("insert")
-    public Result<UserEntity> insert(@Validated(UserInsert.class) @RequestBody UserVo userVo){
-        UserEntity retry = userService.retry();
+    public Result<UserEntity> insert(@Validated({UserUpdate.class, UserUpdate.class}) @RequestBody UserVo userVo){
+        UserDTO userDTO = UserConvertor.userVoConvertUserDTO(userVo);
+
+        UserEntity retry = userService.insert(userDTO);
         return Result.ok(retry);
     }
 }

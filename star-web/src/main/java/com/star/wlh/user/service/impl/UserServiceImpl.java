@@ -3,6 +3,8 @@ package com.star.wlh.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.rholder.retry.*;
+import com.star.wlh.user.dto.UserConvertor;
+import com.star.wlh.user.dto.UserDTO;
 import com.star.wlh.user.entity.UserEntity;
 import com.star.wlh.user.mapper.UserMapper;
 import com.star.wlh.user.service.UserService;
@@ -18,7 +20,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-@Service
+//@Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -33,35 +35,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findAllByPage(long current, long size){
+    public List<UserEntity> findAllByPage(long current, long size) {
+
+        Page<UserEntity> page = new Page<>();
+        page.setSize(size);
         Page<UserEntity> userEntityPage = userMapper.selectPage(new Page<>(current, size), new QueryWrapper<>());
         long pages = userEntityPage.getPages();
         long total = userEntityPage.getTotal();
-        logger.info("pages:{},current:{},total:{},size:{}",pages,userEntityPage.getCurrent(),total,userEntityPage.getSize());
+        logger.info("pages:{},current:{},total:{},size:{}", pages, userEntityPage.getCurrent(), total, userEntityPage.getSize());
         List<UserEntity> records = userEntityPage.getRecords();
-        logger.info("records:{}",records);
+        logger.info("records:{}", records);
         return records;
     }
 
     @Override
     public UserEntity retry() {
-        Callable<UserEntity> callable = ()-> {
+        Callable<UserEntity> callable = () -> {
             logger.info("执行查询数据");
             return userMapper.selectByUserId("001");
         };
-        Retryer<UserEntity> retryer = RetryerBuilder.<UserEntity>newBuilder()
+        Retryer<UserEntity> retry = RetryerBuilder.<UserEntity>newBuilder()
                 .retryIfExceptionOfType(IOException.class)
                 .retryIfExceptionOfType(ArithmeticException.class)
                 .retryIfRuntimeException()
                 .retryIfResult(Objects::isNull)
-                .withWaitStrategy(WaitStrategies.fibonacciWait(100,3, TimeUnit.SECONDS))
+                .withWaitStrategy(WaitStrategies.fibonacciWait(100, 3, TimeUnit.SECONDS))
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build();
         try {
-            return retryer.call(callable);
+            return retry.call(callable);
         } catch (RetryException | ExecutionException e) {
-            logger.error("error",e);
+            logger.error("error", e);
         }
         return null;
+    }
+
+    @Override
+    public UserEntity insert(UserDTO userDTO) {
+        UserEntity userEntity = UserConvertor.userDTOConvertUserEntity(userDTO);
+        try {
+            userMapper.save(userEntity);
+        } catch (Exception e) {
+            logger.error("插入失败");
+            return null;
+        }
+        return userEntity;
     }
 }

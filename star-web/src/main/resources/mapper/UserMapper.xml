@@ -19,7 +19,16 @@
                user.LOGIN_NAME,
                user.PASSWORD,
                user.GENDER
-        from user where user.USER_ID = #{userId,jdbcType=VARCHAR}
+        from user
+        where user.USER_ID = #{userId,jdbcType=VARCHAR}
     </select>
-
+    <insert id="save" parameterType="com.star.wlh.user.entity.UserEntity">
+        insert into `user` (user.USER_ID,
+                            user.NICK_NAME,
+                            user.REAL_NAME,
+                            user.LOGIN_NAME,
+                            user.PASSWORD,
+                            user.GENDER)
+        values (#{userId}, #{nickName}, #{realName}, #{loginName}, #{password}, #{gender})
+    </insert>
 </mapper>
