@@ -11,18 +11,12 @@ import org.slf4j.LoggerFactory;
 public class EnumConvertTest extends BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(EnumConvertTest.class);
 
+    /**
+     * 快速排序
+     */
     @Test
     public void enumConvertTest(){
-        UserDTO userDTO1 = new UserDTO(1,"jack","男");
-        UserDTO userDTO2 = new UserDTO(2,"lucy","1");
-        UserDTO userDTO3 = new UserDTO(3,"marry","0");
-        UserDTO userDTO4 = new UserDTO(4,"zhangsan","12");
-        UserDTO userDTO5 = new UserDTO();
-        EnumConvert enumConvert = new EnumConvert();
 
-        userDTO5.setId(5);
-        userDTO5.setName("王五");
-        logger.info("StringConvert:{}",enumConvert.convert(userDTO4.getGender()));
 
     }
 }

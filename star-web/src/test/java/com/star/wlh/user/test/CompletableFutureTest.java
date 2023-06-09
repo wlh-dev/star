@@ -41,15 +41,15 @@ public class CompletableFutureTest extends BaseTest {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第1步");
             UserEntity userEntity = userMapper.selectById("001");
-            return userEntity.getRealName();
+            return userEntity.getUsername();
         }, poolMaster).thenApplyAsync((userName) -> {
             CommonTools.printTimeAndCurrentThread("执行第2步");
             UserEntity userEntity = userMapper.selectById("001");
-            return userName + "_" + userEntity.getRealName();
+            return userName + "_" + userEntity.getUsername();
         }, poolMaster).thenApplyAsync((userName) -> {
             CommonTools.printTimeAndCurrentThread("执行第3步");
             UserEntity userEntity = userMapper.selectById("001");
-            return userName + "_" + userEntity.getRealName();
+            return userName + "_" + userEntity.getUsername();
         }, poolMaster);
         String result;
         try {
@@ -88,19 +88,19 @@ public class CompletableFutureTest extends BaseTest {
         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第1步");
             UserEntity userEntity = new UserEntity();
-            userEntity.setUserId("001");
+            userEntity.setId("001");
             //  UserEntity entity = userMapper.findById(userEntity);
             //  CommonTools.printTimeAndCurrentThread(entity.getRealName());
         }, poolMaster).thenRunAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第2步");
             UserEntity userEntity = new UserEntity();
-            userEntity.setUserId("002");
+            userEntity.setId("002");
             // UserEntity entity = userMapper.findById(userEntity);
             //  CommonTools.printTimeAndCurrentThread(entity.getRealName());
         }, poolMaster).thenRunAsync(() -> {
             CommonTools.printTimeAndCurrentThread("执行第3步");
             UserEntity userEntity = new UserEntity();
-            userEntity.setUserId("003");
+            userEntity.setId("003");
             // UserEntity entity = userMapper.findById(userEntity);
             //  CommonTools.printTimeAndCurrentThread(entity.getRealName());
         }, poolMaster);

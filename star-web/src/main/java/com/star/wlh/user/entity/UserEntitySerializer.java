@@ -26,7 +26,7 @@ public class UserEntitySerializer extends JsonObjectSerializer<UserEntity> {
         }
     }
     private void writeResObject(UserEntity value, JsonGenerator jgen) throws IOException {
-        jgen.writeObjectField("userId", value.getUserId());
+        jgen.writeObjectField("userId", value.getId());
         /*jgen.writeObjectField(ResAttrFieldCodes.BASE_FIELD_TENANT, value.getTenantId());
         jgen.writeObjectField(ResAttrFieldCodes.BASE_FIELD_CLASS_CODE, value.getClassCode());
         if (value.getClassName() != null) {

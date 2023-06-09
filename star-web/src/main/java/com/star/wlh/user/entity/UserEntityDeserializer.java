@@ -31,7 +31,7 @@ public class UserEntityDeserializer extends JsonObjectDeserializer<UserEntity> {
             String fieldName = it.next();
             switch (fieldName) {
                 case "userId":
-                    object.setUserId(super.nullSafeValue(tree.get(fieldName),String.class));
+                    object.setId(super.nullSafeValue(tree.get(fieldName),String.class));
                     break;
                 default:
 

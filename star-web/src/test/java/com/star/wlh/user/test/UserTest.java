@@ -43,7 +43,7 @@ public class UserTest extends BaseTest {
     @DisplayName("根据ID查询")
     public void findByIdTest() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId("001");
+        userEntity.setId("1");
         UserEntity query = userMapper.selectById(userEntity);
         logger.info("查询到的数据是:{}", query);
     }
@@ -61,7 +61,7 @@ public class UserTest extends BaseTest {
     @Test
     @DisplayName("根据ID查询")
     public void userFindByIdTest() {
-        UserEntity user = userService.findById("001");
+        UserEntity user = userService.findById("1");
         logger.info("查询数据结果：{}", user);
     }
 

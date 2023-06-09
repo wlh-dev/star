@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MyBatisPlusConfig {
-    @Value("${mybatis.max.limit:1000L}")
+    @Value("${mybatis.max.limit:1000}")
     private Long maxLimit;
 
     @Bean

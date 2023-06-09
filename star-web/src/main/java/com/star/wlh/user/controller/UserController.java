@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 

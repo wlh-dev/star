@@ -1,7 +1,9 @@
 package com.star.wlh.user.service.impl;
 
+import com.star.wlh.user.convert.EnumConvert;
 import com.star.wlh.user.dto.UserDTO;
 import com.star.wlh.user.entity.UserEntity;
+import com.star.wlh.user.enums.GenderEnum;
 import com.star.wlh.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +23,21 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     @Override
     public UserEntity findById(String id) {
-        String sql = "select USER_ID,NICK_NAME from `user` where USER_ID = ?";
+        EnumConvert enumConvert = new EnumConvert();
+        String sql = "select id, username, password, email, gender, birth from `user` where id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new int[]{Types.VARCHAR}, (rs, rowNum) -> {
             UserEntity result = new UserEntity();
-            result.setUserId(rs.getString("USER_ID"));
-            result.setNickName(rs.getString("NICK_NAME"));
+            result.setId(rs.getString("id"));
+            result.setUsername(rs.getString("username"));
+            result.setPassword(rs.getString("password"));
+            result.setEmail(rs.getString("email"));
+            String gender = rs.getString("gender");
+            result.setBirth(rs.getDate("birth"));
+            if (gender != null) {
+                result.setGender(enumConvert.convert(gender));
+            } else {
+                result.setGender(GenderEnum.UNKNOWN);
+            }
             return result;
         });
     }

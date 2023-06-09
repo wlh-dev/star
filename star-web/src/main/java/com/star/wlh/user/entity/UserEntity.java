@@ -17,50 +17,48 @@ import org.apache.kafka.common.protocol.types.Field;
 
 import java.beans.Transient;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 /**
  * @author : wlh
  * @date Date : 2022年08月06日 00:53
  */
-@JsonIgnoreProperties
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@DefaultSerializer(CompatibleFieldSerializer.class)
-@TableName(schema = "study",value = "user")
+@TableName(schema = "study", value = "user")
 public class UserEntity implements Serializable {
-	private static final long serialVersionUID = -6564022808907262054L;
-	/**
-	 * 用户id
-	 */
-	@TableId()
-	@TableField(value = "USER_ID",jdbcType = JdbcType.VARCHAR)
-	private String userId;
-	/**
-	 * 用户名称
-	 */
-	@TableField(value = "NICK_NAME",typeHandler = MybatisJsonTypeHandler.class)
-	private String nickName;
-	/**
-	 * 用户英文名称
-	 */
-	@TableField(value = "REAL_NAME",typeHandler = MybatisJsonTypeHandler.class)
-	private String realName;
-	/**
-	 * 登陆名称
-	 */
-	@TableField(value = "LOGIN_NAME",typeHandler = MybatisJsonTypeHandler.class)
-	private String loginName;
-	/**
-	 * 登录密码
-	 */
-	@TableField(value = "PASSWORD",typeHandler = MybatisJsonTypeHandler.class)
-	private String password;
-	/**
-	 * 性别
-	 */
-	@TableField(value = "GENDER")
-	private GenderEnum gender;
+    private static final long serialVersionUID = -6564022808907262054L;
+    /**
+     * 用户id
+     */
+    @TableId()
+    private String id;
+    /**
+     * 用户名称
+     */
+    @TableField(value = "username")
+    private String username;
+    /**
+     * 用户英文名称
+     */
+    @TableField(value = "password")
+    private String password;
+    /**
+     * 登录密码
+     */
+    @TableField(value = "email")
+    private String email;
+    /**
+     * 性别
+     */
+    @TableField(value = "gender")
+    private GenderEnum gender;
 
+    /**
+     * 生日
+     */
+    @TableField(value = "birth", jdbcType = JdbcType.TIMESTAMP)
+    private Date birth;
 }
