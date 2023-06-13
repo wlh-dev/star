@@ -12,7 +12,7 @@ import java.util.Optional;
 public class EnumConvert implements Converter<String, GenderEnum> {
     private final Map<String, GenderEnum> map = new HashMap<>();
 
-    public EnumConvert() {
+    public  EnumConvert() {
         Arrays.stream(GenderEnum.class.getEnumConstants())
                 .forEach(x -> {
                             map.put(String.valueOf(x.getValue()), x);
@@ -24,6 +24,12 @@ public class EnumConvert implements Converter<String, GenderEnum> {
     @Override
     public GenderEnum convert(@Nonnull String source) {
         return Optional.of(source).map(map::get).orElse(GenderEnum.UNKNOWN);
+    }
+
+    public static void main(String[] args) {
+        EnumConvert enumConvert = new EnumConvert();
+        GenderEnum convert = enumConvert.convert(null);
+        System.out.println(convert);
     }
 
 }

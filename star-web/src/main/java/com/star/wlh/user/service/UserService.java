@@ -1,6 +1,7 @@
 package com.star.wlh.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.star.wlh.common.exception.InterfaceNotImplemented;
 import com.star.wlh.user.dto.UserDTO;
 import com.star.wlh.user.entity.UserEntity;
 
@@ -14,4 +15,8 @@ public interface UserService {
     UserEntity insert(UserDTO userDTO);
 
 	List<UserEntity> findAllByPage(long current, long size);
+
+    default UserEntity deleteByName(String name){
+        throw new InterfaceNotImplemented();
+    }
 }

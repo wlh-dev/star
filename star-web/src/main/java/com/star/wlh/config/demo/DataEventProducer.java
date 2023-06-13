@@ -1,4 +1,4 @@
-package com.star.wlh.demo;
+package com.star.wlh.config.demo;
 
 import com.lmax.disruptor.RingBuffer;
 

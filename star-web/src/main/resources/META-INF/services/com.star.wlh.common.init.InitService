@@ -1,0 +1,2 @@
+com.star.wlh.init.MongoDBInitServiceImpl
+com.star.wlh.init.MysqlInitServiceImpl

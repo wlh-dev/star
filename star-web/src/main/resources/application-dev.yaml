@@ -1,0 +1,17 @@
+logging:
+  config: classpath:logging-config.xml
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  #  sql:
+#    init:
+#      schema-locations: classpath:org/springframework/batch/core/schema-mysql.sql
+#      mode: always
+#      mode: never
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-enums-package: com.star.wlh.user.enums
+
+
