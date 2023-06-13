@@ -3,11 +3,11 @@ package com.star.wlh.common.dao.mongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import org.springframework.data.domain.Sort;
+import org.bson.Document;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.index.Index;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -26,7 +26,7 @@ public interface MongoGenDao<T> {
     /**
      * 保存一个对象
      *
-     * @param t
+     * @param t 对象实体
      * @return
      */
     void save(T t);
@@ -34,14 +34,14 @@ public interface MongoGenDao<T> {
     /**
      * 新建一个对象
      *
-     * @param t
+     * @param t 对象实体
      */
     void insert(T t);
 
     /**
      * 批量新对象。
      *
-     * @param tList 待插入的对象列表
+     * @param tList 对象实体List 待插入的对象列表
      */
     void insertMany(List<T> tList);
 
@@ -53,7 +53,7 @@ public interface MongoGenDao<T> {
     /**
      * 删除一条数据，执行的是物理删除。
      *
-     * @param t t.getId（）不为空
+     * @param t 对象实体 t.getId（）不为空
      * @return
      */
     DeleteResult delete(T t);
@@ -216,13 +216,6 @@ public interface MongoGenDao<T> {
      */
     MongoCollection<Document> getCollection();
 
-    /**
-     * 返回集合对象：慎用！
-     *
-     * @param readPreferSecondary 是否从节点优先
-     * @return 集合
-     */
-    MongoCollection<Document> getCollection(boolean readPreferSecondary);
 
     /**
      * 创建集合
@@ -258,7 +251,7 @@ public interface MongoGenDao<T> {
         List<Order> order = new ArrayList<>();
         for (int i = 0; i < sort.length; i++) {
             String field = sort[i].getField();
-            Order entity = new Order(Sort.Direction.ASC.name().equals(sort[i].getSort().name()) ? Sort.Direction.ASC : Sort.Direction.DESC, field);
+            Order entity = new Order(Direction.ASC.name().equals(sort[i].getSort().name()) ? Direction.ASC : Direction.DESC, field);
             order.add(entity);
         }
         return order;

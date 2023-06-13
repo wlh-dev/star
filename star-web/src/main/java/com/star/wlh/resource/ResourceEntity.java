@@ -26,6 +26,9 @@ import java.util.LinkedHashMap;
 @NoArgsConstructor
 public class ResourceEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    /**
+     * mongoID
+     */
     private String id;
     private String name;
     private String serial;

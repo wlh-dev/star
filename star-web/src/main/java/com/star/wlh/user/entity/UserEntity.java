@@ -8,12 +8,14 @@ import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.star.wlh.config.MybatisJsonTypeHandler;
+import com.star.wlh.user.convert.EnumConvert;
 import com.star.wlh.user.enums.GenderEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.kafka.common.protocol.types.Field;
+import org.springframework.util.StringUtils;
 
 import java.beans.Transient;
 import java.io.Serializable;
@@ -61,4 +63,20 @@ public class UserEntity implements Serializable {
      */
     @TableField(value = "birth", jdbcType = JdbcType.TIMESTAMP)
     private Date birth;
+
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
+    }
+    public void setGender(String gender) {
+        if (StringUtils.hasLength(gender)){
+
+        }else {
+            this.gender = GenderEnum.UNKNOWN;
+        }
+
+    }
+    public static UserEntity instance(){
+        return new UserEntity();
+    }
+
 }

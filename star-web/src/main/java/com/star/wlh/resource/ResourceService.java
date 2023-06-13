@@ -7,4 +7,5 @@ package com.star.wlh.resource;
  * @Created by wlh
  */
 public interface ResourceService {
+    boolean save(ResourceEntity resource);
 }

@@ -1,9 +1,8 @@
 package com.star.wlh.log;
 
-import com.star.wlh.user.config.Result;
+import com.star.wlh.common.response.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.boot.logging.LoggerConfiguration;
 import org.springframework.boot.logging.LoggingSystem;
@@ -27,14 +26,14 @@ public class LogLevelController {
 
 
     @RequestMapping(value = "logLevel/{logLevel}")
-    public Result<String> changeLogLevel(@PathVariable("logLevel") String level) {
+    public ResponseResult<String> changeLogLevel(@PathVariable("logLevel") String level) {
         try {
             LoggerConfiguration loggerConfiguration = loggingSystem.getLoggerConfiguration(ROOT_LOGGER_NAME);
 
             if (loggerConfiguration == null) {
                 if (logger.isErrorEnabled()) {
                     logger.error("no loggerConfiguration with loggerName " + level);
-                    return Result.fail("no loggerConfiguration with loggerName！！！");
+                    return ResponseResult.fail("no loggerConfiguration with loggerName！！！");
                 }
             }
             if (!supportLevels().contains(level)) {
@@ -42,7 +41,7 @@ public class LogLevelController {
                     StringBuilder sb = new StringBuilder();
                     sb.append("current Level is not support :").append(level).append(" \n support level is :").append(supportLevels());
                     logger.error(sb.toString());
-                    return Result.fail(sb.toString());
+                    return ResponseResult.fail(sb.toString());
                 }
             }
             LogLevel effectiveLevel = loggerConfiguration.getEffectiveLevel();
@@ -55,10 +54,10 @@ public class LogLevelController {
             }
             StringBuilder sb = new StringBuilder();
             sb.append("change log level successful!!!  before log level is :").append(effectiveLevel.name()).append("  current log level is ").append(level);
-            return Result.ok(sb.toString());
+            return ResponseResult.ok(sb.toString());
         }catch (IllegalArgumentException e){
             logger.error("IllegalArgumentException : ",e);
-            return Result.fail(e.getMessage());
+            return ResponseResult.fail(e.getMessage());
         }
 
     }

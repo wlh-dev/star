@@ -1,16 +1,11 @@
 package com.star.wlh.user.test;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.star.wlh.common.serialize.Serialization;
 import com.star.wlh.common.serialize.SerializationFactory;
 import com.star.wlh.user.BaseTest;
-import com.star.wlh.user.config.Result;
 import com.star.wlh.user.entity.UserEntity;
 import com.star.wlh.user.mapper.UserMapper;
 import com.star.wlh.user.service.UserService;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -72,4 +67,5 @@ public class UserTest extends BaseTest {
         SerializationFactory.Serializations code = aDefault.getCode();
         logger.info("code:{}", code);
     }
+
 }

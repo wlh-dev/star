@@ -1,4 +1,4 @@
-package com.star.wlh.demo.block;
+package com.star.wlh.config.demo.block;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
