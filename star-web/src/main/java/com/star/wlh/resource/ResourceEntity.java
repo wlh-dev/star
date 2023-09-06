@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 
 /**
  * @Classname ResourceEntity
- * @Description TODO
+ * @Description 
  * @Date 2023/6/6 19:51
  * @Created by wlh
  */

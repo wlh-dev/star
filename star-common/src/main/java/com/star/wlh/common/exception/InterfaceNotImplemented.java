@@ -2,7 +2,7 @@ package com.star.wlh.common.exception;
 
 /**
  * @Classname InterfaceNotImplemented
- * @Description TODO
+ * @Description 
  * @Date 2023/6/9 20:49
  * @Created by wlh
  */

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler implements Thread.UncaughtExceptionHandler {
     /**
      * 最终异常
      *
@@ -49,5 +49,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseResult<String> licenseExceptionHandler(LicenseException exception){
         return ResponseResult.fail(exception.getMessage());
+    }
+
+    public ResponseResult<String> uncaughtExceptionHandler(Thread.UncaughtExceptionHandler uncaughtExceptionHandler){
+        return ResponseResult.fail(uncaughtExceptionHandler.toString());
+    }
+
+    @Override
+    @ExceptionHandler
+    public void uncaughtException(Thread t, Throwable e) {
+
     }
 }

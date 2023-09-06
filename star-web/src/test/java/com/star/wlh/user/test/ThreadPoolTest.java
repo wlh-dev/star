@@ -12,7 +12,17 @@ import java.util.concurrent.*;
 public class ThreadPoolTest extends BaseTest {
 	private static final Logger logger = LoggerFactory.getLogger(ThreadPoolTest.class);
 
-	public static final ThreadFactory factory = ThreadFactoryBuilder.create().setNamePrefix("pool_").build();
+	public static final ThreadFactory factory =
+            ThreadFactoryBuilder
+                    .create()
+                    .setNamePrefix("pool_")
+                    .setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                        @Override
+                        public void uncaughtException(Thread t, Throwable e) {
+
+                        }
+                    })
+                    .build();
 
 	@Test public void abortPolicyTest() {
 		try {

@@ -1,5 +1,6 @@
 package com.star.wlh.user.test;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.star.wlh.common.serialize.Serialization;
 import com.star.wlh.common.serialize.SerializationFactory;
 import com.star.wlh.user.BaseTest;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +22,13 @@ public class UserTest extends BaseTest {
     @Autowired
     private UserMapper userMapper;
     @Autowired
+    @Qualifier("userServiceJdbcTemplate")
     private UserService userService;
 
     @Test
     public void userTest() {
+        UserService userServiceJdbcTemplate = SpringUtil.getBean("userServiceJdbcTemplate", UserService.class);
+
         List<String> list = new ArrayList<>();
         list.add("001");
         UserEntity userEntity = userMapper.selectById("001");

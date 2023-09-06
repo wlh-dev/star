@@ -2,7 +2,7 @@ package com.star.wlh.effective;
 
 /**
  * @Classname NutritionFacts
- * @Description TODO
+ * @Description 
  * @Date 2023/6/13 18:28
  * @Created by wlh
  */

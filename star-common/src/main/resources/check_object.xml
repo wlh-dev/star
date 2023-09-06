@@ -708,7 +708,7 @@
             SELECT
             `NAME`,
             `IP`,
-            <!-- `IP_LIST`, TODO 824 后期云平台推送 -->
+            <!-- `IP_LIST`, -->
             `LOGICAL_STATUS`,
             `DU_ID`,
             `REL_DATACENTER` DATACENTER_NAME,
@@ -781,7 +781,7 @@
             SELECT
             `NAME`,
             `IP`,
-            <!-- `IP_LIST`, TODO 824 后期云平台推送 -->
+            <!-- `IP_LIST`,  -->
             `LOGICAL_STATUS`,
             `DU_ID`,
             `REL_DATACENTER`,
@@ -8222,12 +8222,12 @@
             SELECT
             `DEVICE_NAME`,
             `ILO_MGMT_IP`,
-            <!-- `IP_LIST`, TODO 824 后期云平台推送 -->
+            <!-- `IP_LIST`,  -->
             `LOGICAL_STATUS`,
             `DU_ID`,
             `DU_NAME`,
             `DU_TYPE_CODE`,
-            `APPLICATION`, <!-- 应用物理子系统 引用 物理子系统 TODO 确定推送内容-->
+            `APPLICATION`, <!-- 应用物理子系统 引用 物理子系统 ->
             `REL_DATACENTER`,
             `SU_ID`,
             `CLUSTER_NAME`,
