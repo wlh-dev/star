@@ -3,7 +3,8 @@ package com.star.wlh.algorithm.search;
 public class InterpolationSearch {
     public static void main(String[] args) {
         Integer[] result = DataFactory.unrepeatedArrayFactory(1000, 100, true);
-        int i = interpolationSearch(result, 99);
+        int target = 99;
+        int i = interpolationSearch(result, target);
         System.out.println(i);
     }
 
