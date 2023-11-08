@@ -8,6 +8,10 @@ ij_formatter_tags_enabled = false
 ij_smart_tabs = false
 ij_visual_guides = none
 ij_wrap_on_typing = false
+#缩进格式
+indent_style = tab
+#编码字符集
+charset = utf-8
 
 [*.java]
 ij_java_align_consecutive_assignments = false
