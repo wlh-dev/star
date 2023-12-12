@@ -10,20 +10,19 @@ public class DateUtils {
 
     /**
      * 获取当前日期
+     *
      * @return 当前日期
      */
-    public static Date getCurrentData(){
-        Instant now = Instant.now();
-        long epochSecond = now.getEpochSecond();
-        System.out.println(epochSecond);
-        return null;
+    public static Date getCurrentData() {
+        return new Date(Instant.now().getEpochSecond());
     }
 
     public static void main(String[] args) {
         String currentTimeStr = getCurrentLongDateTimeStr();
         System.out.println(currentTimeStr);
     }
-    public static String getCurrentLongDateTimeStr(){
+
+    public static String getCurrentLongDateTimeStr() {
         return LocalDateTime.now().format(TIME_FORMATTER);
     }
 

@@ -1,7 +1,7 @@
 package com.star.wlh.resource;
 
 import com.star.wlh.common.dao.mongo.AbstractMongoGenDao;
-import com.star.wlh.common.dao.mongo.MongoGenDao;
+import org.springframework.stereotype.Component;
 
 /**
  * @Classname ResourceDaoImpl
@@ -9,6 +9,7 @@ import com.star.wlh.common.dao.mongo.MongoGenDao;
  * @Date 2023/6/11 17:57
  * @Created by wlh
  */
+@Component
 public class ResourceDaoImpl extends AbstractMongoGenDao<ResourceEntity> implements ResourceDao {
     @Override
     protected Class<ResourceEntity> getEntityClass() {

@@ -3,12 +3,10 @@ package com.star.wlh.common.dao.mongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.sun.org.apache.bcel.internal.generic.RET;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
@@ -25,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @Classname AbstractMongoGenDao
+ * @ClassName AbstractMongoGenDao
  * @Description 抽象实现类，默认实现一些与业务无关的功能。
  * @Date 2023/6/9 23:13
  * @Created by wlh
@@ -101,7 +99,7 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
     }
 
     @Override
-    public List<T> getList(Query query, boolean perferSecondary) {
+    public List<T> getList(Query query, boolean preferSecondary) {
         return null;
     }
 

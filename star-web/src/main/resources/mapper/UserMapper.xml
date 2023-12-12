@@ -5,12 +5,11 @@
 
 <mapper namespace="com.star.wlh.user.mapper.UserMapper">
     <resultMap id="UserEntity" type="com.star.wlh.user.entity.UserEntity">
-        <id property="userId" column="USER_ID" javaType="string" jdbcType="VARCHAR"/>
-        <responseResult property="nickName" column="NICK_NAME" javaType="string" jdbcType="VARCHAR"/>
-        <responseResult property="realName" column="REAL_NAME" javaType="string" jdbcType="VARCHAR"/>
-        <responseResult property="loginName" column="LOGIN_NAME" javaType="string" jdbcType="VARCHAR"/>
-        <responseResult property="password" column="PASSWORD" javaType="string" jdbcType="VARCHAR"/>
-        <responseResult property="gender" column="GENDER"/>
+        <id property="id" column="USER_ID" javaType="string" jdbcType="VARCHAR"/>
+        <result property="username" column="NICK_NAME" javaType="string" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" javaType="string" jdbcType="VARCHAR"/>
+		<result property="email" column="Email" javaType="string" jdbcType="VARCHAR"/>
+		<result property="gender" column="GENDER"/>
     </resultMap>
     <select id="selectByUserId" resultMap="UserEntity" parameterType="string">
         select user.USER_ID,
@@ -23,6 +22,9 @@
         where user.USER_ID = #{userId,jdbcType=VARCHAR}
     </select>
     <insert id="save" parameterType="com.star.wlh.user.entity.UserEntity">
+		<selectKey resultType="int" order="AFTER" keyProperty="user_id">
+			select last_insert_id()
+		</selectKey>
         insert into `user` (user.USER_ID,
                             user.NICK_NAME,
                             user.REAL_NAME,

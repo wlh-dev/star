@@ -109,10 +109,10 @@ public interface MongoGenDao<T> {
      * 根据条件查询集合
      *
      * @param query 查询条件
-     * @param perferSecondary 从节点优先
+     * @param preferSecondary 从节点优先
      * @return 满足条件的集合
      */
-    List<T> getList(Query query, boolean perferSecondary);
+    List<T> getList(Query query, boolean preferSecondary);
 
     /**
      * 通过条件查询单个实体

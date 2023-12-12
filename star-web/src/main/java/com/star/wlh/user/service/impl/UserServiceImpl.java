@@ -34,12 +34,18 @@ public class UserServiceImpl implements UserService {
         return userEntity;
     }
 
+    /**
+     * 分页查询所有数据
+     * @param currentPage 当前页
+     * @param size {@default 10}每页大小
+     * @return {@link com.star.wlh.user.entity.UserEntity} 查询到每页的值列表
+     */
     @Override
-    public List<UserEntity> findAllByPage(long current, long size) {
+    public List<UserEntity> findAllByPage(long currentPage, long size) {
 
         Page<UserEntity> page = new Page<>();
         page.setSize(size);
-        Page<UserEntity> userEntityPage = userMapper.selectPage(new Page<>(current, size), new QueryWrapper<>());
+        Page<UserEntity> userEntityPage = userMapper.selectPage(new Page<>(currentPage, size), new QueryWrapper<>());
         long pages = userEntityPage.getPages();
         long total = userEntityPage.getTotal();
         logger.info("pages:{},current:{},total:{},size:{}", pages, userEntityPage.getCurrent(), total, userEntityPage.getSize());

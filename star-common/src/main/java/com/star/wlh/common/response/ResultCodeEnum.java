@@ -4,14 +4,13 @@ import lombok.Getter;
 
 /**
  * 统一返回结果状态信息类
- *
  */
 @Getter
 public enum ResultCodeEnum {
     /**
      * 成功
      */
-    SUCCESS(2000,"成功"),
+    SUCCESS(2000, "成功"),
     /**
      * 失败
      */
@@ -29,14 +28,13 @@ public enum ResultCodeEnum {
     PERMISSION(2009, "没有权限"),
     ACCOUNT_ERROR(2014, "账号不正确"),
     PASSWORD_ERROR(2015, "密码不正确"),
-    LOGIN_MOBLE_ERROR( 2016, "账号不正确"),
-    ACCOUNT_STOP( 2017, "账号已停用"),
-    NODE_ERROR( 2018, "该节点下有子节点，不可以删除"),
+    LOGIN_ACCOUNT_ERROR(2016, "账号不正确"),
+    ACCOUNT_STOP(2017, "账号已停用"),
+    NODE_ERROR(2018, "该节点下有子节点，不可以删除"),
     /**
      * 方法未实现
      */
-    INTERFACE_NOT_IMPLEMENTS(7000,"实现类未实现该方法")
-    ;
+    INTERFACE_NOT_IMPLEMENTS(7000, "实现类未实现该方法");
 
     private Integer code;
 

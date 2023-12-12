@@ -12,7 +12,8 @@ public class ResponseResult<T> {
     //返回数据
     private T data;
 
-    public ResponseResult(){}
+    public ResponseResult() {
+    }
 
     // 返回数据
     protected static <T> ResponseResult<T> build(T data) {
@@ -37,52 +38,50 @@ public class ResponseResult<T> {
         return responseResult;
     }
 
-    public static<T> ResponseResult<T> ok(){
+    public static <T> ResponseResult<T> ok() {
         return ResponseResult.ok(null);
     }
 
     /**
      * 操作成功
-     * @param data  baseCategory1List
+     *
+     * @param data baseCategory1List
      * @param <T>
      * @return
      */
-    public static<T> ResponseResult<T> ok(T data){
+    public static <T> ResponseResult<T> ok(T data) {
         return build(data, ResultCodeEnum.SUCCESS);
     }
 
-    public static<T> ResponseResult<T> fail(){
+    public static <T> ResponseResult<T> fail() {
         return ResponseResult.fail(null);
     }
 
     /**
      * 操作失败
+     *
      * @param data 元数据
-     * @param <T> 数据类型
+     * @param <T>  数据类型
      * @return
      */
-    public static<T> ResponseResult<T> fail(T data){
+    public static <T> ResponseResult<T> fail(T data) {
         ResponseResult<T> responseResult = build(data);
         return build(data, ResultCodeEnum.FAIL);
     }
 
-    public ResponseResult<T> message(String msg){
+    public ResponseResult<T> message(String msg) {
         this.setMessage(msg);
         return this;
     }
 
-    public ResponseResult<T> code(Integer code){
+    public ResponseResult<T> code(Integer code) {
         this.setCode(code);
         return this;
     }
 
     @Override
     public String toString() {
-        return "Result{" +
-                "code=" + code +
-                ", message='" + message + '\'' +
-                ", data=" + data +
-                '}';
+        return "Result{" + "code=" + code + ", message='" + message + '\'' + ", data=" + data + '}';
     }
 
     public Integer getCode() {
