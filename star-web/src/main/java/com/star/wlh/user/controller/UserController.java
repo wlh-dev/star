@@ -33,12 +33,16 @@ public class UserController {
         return ResponseResult.ok(retry);
     }
 
+    /**
+     * 插入新数据
+     * @param userVo {@link UserVo}
+     * @return {@link ResponseResult}
+     */
     @RequestMapping("insert")
     public ResponseResult<UserEntity> insert(@Validated({UserUpdate.class, UserInsert.class}) @RequestBody UserVo userVo){
         UserDTO userDTO = UserConvertor.userVoConvertUserDTO(userVo);
-
-        UserEntity retry = userService.insert(userDTO);
-        return ResponseResult.ok(retry);
+        UserEntity insert = userService.insert(userDTO);
+        return ResponseResult.ok(insert);
     }
     @RequestMapping("deleteByName")
     public ResponseResult<UserEntity> deleteByName(String name){

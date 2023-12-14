@@ -15,11 +15,11 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Validated
 public class UserVo {
-    @NotNull(message = "更新数据Id不能为空",groups = {UserUpdate.class})
+    @NotNull(message = "更新数据Id不能为空", groups = {UserInsert.class, UserUpdate.class})
     private String id;
-    @NotBlank(message = "name不能为空",groups = {UserUpdate.class})
+    @NotBlank(message = "name不能为空", groups = {UserInsert.class, UserUpdate.class})
     private String name;
-    @Length(min = 6,max = 32,message = "密码长度必须在6-32位")
+    @Length(min = 6, max = 32, message = "密码长度必须在6-32位", groups = {UserInsert.class})
     @NotBlank(message = "密码不能为空")
     private String password;
     @Valid
