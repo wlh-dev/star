@@ -8,11 +8,15 @@ import lombok.Getter;
 @Getter
 public enum ResultCodeEnum {
     /**
-     * 成功
+     * response
+     */
+
+    /**
+     * 成功 状态码 2000
      */
     SUCCESS(2000, "成功"),
     /**
-     * 失败
+     * 异常 状态码 5000
      */
     FAIL(5001, "失败"),
     /**
@@ -32,7 +36,11 @@ public enum ResultCodeEnum {
     ACCOUNT_STOP(2017, "账号已停用"),
     NODE_ERROR(2018, "该节点下有子节点，不可以删除"),
     /**
-     * 方法未实现
+     * method
+     */
+    /**
+     * method
+     * 方法未实现 状态码 7000
      */
     INTERFACE_NOT_IMPLEMENTS(7000, "实现类未实现该方法");
 
