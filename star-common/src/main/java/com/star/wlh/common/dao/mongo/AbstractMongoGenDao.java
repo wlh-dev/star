@@ -3,9 +3,9 @@ package com.star.wlh.common.dao.mongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import lombok.Setter;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,7 +16,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +32,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
     protected static final String FIELD_ID = "_id";
-    private Map<Class<?>, String> entity2Collection = new ConcurrentHashMap<>();
-    @Autowired
+    private final Map<Class<?>, String> entity2Collection = new ConcurrentHashMap<>();
+    @Setter
+    @Resource
     @Qualifier("mainMongoTemplate")
     protected MongoTemplate mongoTemplate;
 
-    @Autowired
+    @Resource
     @Qualifier("readPreferSecondaryMongoTemplate")
     protected MongoTemplate readPreferSecondaryMongoTemplate;
-
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
 
     @Override
     public void save(T t) {
@@ -95,12 +94,12 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
 
     @Override
     public List<T> getList(Query query) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<T> getList(Query query, boolean preferSecondary) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -110,7 +109,7 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
 
     @Override
     public List<T> getPage(Query query, int start, int size) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -139,7 +138,7 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
     }
 
     @Override
-    public UpdateResult updateInser(Query query, Update update) {
+    public UpdateResult updateInsert(Query query, Update update) {
         return null;
     }
 
@@ -182,7 +181,11 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
     }
 
     @Override
-    public void dropIndex(String name) {
+    public void dropIndex(String indexName) {
+
+    }
+    @Override
+    public void dropIndex(Index index){
 
     }
 
@@ -192,13 +195,13 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
     }
 
     @Override
-    public List<T> shrinkQuery(Query query, String... includedFileds) {
-        return null;
+    public List<T> shrinkQuery(Query query, String... includedFields) {
+        return new ArrayList<>();
     }
 
     @Override
     public <R> List<R> findDistinct(Query query, String field, Class<R> resultClass) {
-        return null;
+        return new ArrayList<>();
     }
 
     private Object convert2ObjectIdIfNeeded(String id) {
@@ -214,7 +217,7 @@ public abstract class AbstractMongoGenDao<T> implements MongoGenDao<T> {
             Annotation[] annotations = entityClass.getAnnotations();
             for (Annotation anno : annotations) {
                 if (anno instanceof org.springframework.data.mongodb.core.mapping.Document) {
-                    collectionName = org.springframework.data.mongodb.core.mapping.Document.class.cast(anno).collection();
+                    collectionName = ((org.springframework.data.mongodb.core.mapping.Document) anno).collection();
                     break;
                 }
             }

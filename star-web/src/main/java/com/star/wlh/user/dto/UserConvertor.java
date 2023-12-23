@@ -7,7 +7,7 @@ public class UserConvertor {
     /**
      * convert userUserEntity to userDTO
      *
-     * @return
+     * @return User传输实体对象 {@link UserDTO}
      */
     public static UserDTO userEntityConvertUserDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
@@ -15,11 +15,14 @@ public class UserConvertor {
         return userDTO;
     }
 
+    private UserConvertor() {
+    }
+
     /**
      * convert UserDTO to UserEntity
      *
-     * @param userDTO
-     * @return
+     * @param userDTO {@link UserDTO} 传输对象
+     * @return UserEntity {@link UserEntity}
      */
     public static UserEntity userDTOConvertUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
@@ -29,9 +32,10 @@ public class UserConvertor {
 
     /**
      * convert userVo to UserDTO
+     * UserVO对象转换为UserDTO对象
      *
-     * @param userVo
-     * @return
+     * @param userVo {@link UserVo} user包装对象
+     * @return UserDTO {@link UserDTO} User传输对象
      */
     public static UserDTO userVoConvertUserDTO(UserVo userVo) {
         UserDTO userDTO = new UserDTO();
